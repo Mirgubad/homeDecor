@@ -1,0 +1,10 @@
+.filters__title {
+  font-size: 2rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-bottom: 2.6rem;
+  text-transform: uppercase;
+}
+
+.filters {
+}

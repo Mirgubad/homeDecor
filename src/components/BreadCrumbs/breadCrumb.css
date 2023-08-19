@@ -1,0 +1,27 @@
+.breadCrumbs {
+  margin-bottom: 4.9rem;
+}
+
+.breadcrumb-not-active {
+  color: var(--txt-color-dark-gray);
+}
+
+.breadcrumb-active {
+  color: #000000;
+  pointer-events: none;
+}
+
+.breadcrumbs__items--link {
+  margin-right: 2rem;
+  position: relative;
+}
+.breadcrumbs__items--link:not(:first-child) {
+  margin-left: 2rem;
+}
+
+.breadcrumbs__items--link:not(:first-child)::after {
+  content: "|";
+  position: absolute;
+  color: var(--txt-color-dark-gray);
+  left: -2rem;
+}

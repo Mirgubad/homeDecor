@@ -1,0 +1,12 @@
+.filters__item--label {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  text-transform: uppercase;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+.filters__item{
+  
+}
