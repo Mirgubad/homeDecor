@@ -2,12 +2,11 @@ import React from "react";
 import "../ProductElement/productel.css";
 import { Link } from "react-router-dom";
 
-const ProductElement = (props) => {
-  const { img, title, price, currency, onClick } = props;
+const ProductElement = ({ img, title, price, currency, onClick, id }) => {
   return (
     <article onClick={onClick} className="product__item">
       <div className="product__top">
-        <Link to="#">
+        <Link to={`/details/${id}/${title}`}>
           <img className="product__img" src={img} alt={title} />
         </Link>
         <Link className="wish__btn">

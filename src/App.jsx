@@ -8,6 +8,7 @@ import CollectionsPage from "./pages/CollectionsPage";
 import ContactPage from "./pages/ContactPage";
 import LoginPage from "./pages/Auth/LoginPage";
 import RegisterPage from "./pages/Auth/RegisterPage";
+import DetailPage from "./pages/DetailPage";
 import "./index.css";
 import { Suspense } from "react";
 import ShoppingCardPage from "./pages/ShoppingCardPage";
@@ -28,7 +29,7 @@ const App = () => {
               <Route path="/contact" element={<ContactPage />}></Route>
               <Route path="/card" element={<ShoppingCardPage />}></Route>
               <Route path="/results" element={<SearchResultsPage />}></Route>
-              {/* <Route path="/details/:id" element={<DetailPage />}></Route> */}
+              <Route path="/details/:id/:title" element={<DetailPage />}></Route>
             </Route>
 
             <Route path="auth/">

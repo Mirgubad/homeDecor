@@ -1,15 +1,8 @@
 import React from "react";
 import styles from "../SortSelect/sortSelect.module.css";
-import { useState } from "react";
 
-const SortSelect = () => {
-  const [open, setOpen] = useState(false);
+const SortSelect = ({ open, setOpen, sortTypes, onSortClick }) => {
 
-  const sortTypes = [
-    { title: "popular first" },
-    { title: "cheapest first" },
-    { title: "expensive first" },
-  ];
   return (
     <div className={styles.select}>
       <div onClick={() => setOpen(!open)} className={styles.header}>
@@ -23,27 +16,27 @@ const SortSelect = () => {
           <path
             d="M4 16L13 16"
             stroke="#B8926A"
-            stroke-width="1.5"
-            stroke-linecap="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
           />
           <path
             d="M6 11H13"
             stroke="#B8926A"
-            stroke-width="1.5"
-            stroke-linecap="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
           />
           <path
             d="M8 6L13 6"
             stroke="#B8926A"
-            stroke-width="1.5"
-            stroke-linecap="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
           />
           <path
             d="M17 4L17 20L20 16"
             stroke="#B8926A"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
         Sort By
@@ -54,10 +47,8 @@ const SortSelect = () => {
       >
         {sortTypes.map((sort) => (
           <div
-            onClick={(e) => {
-              console.log(sort.title);
-              setOpen(false);
-            }}
+            key={sort.id}
+            onClick={() => onSortClick(sort)}
             className={styles.option}
           >
             {sort.title}

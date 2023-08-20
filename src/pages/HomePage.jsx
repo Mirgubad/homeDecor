@@ -62,7 +62,6 @@ const HomePage = () => {
 
     fetchData();
   }, []);
-  console.log(product);
   useSetPageTitle(t("webTitle"));
   return (
     <main>
@@ -81,8 +80,8 @@ const HomePage = () => {
         {products &&
           products.map((product) => (
             <ProductElement
-            key={product.id}
-            onClick={() => dispatch(getProductById(product.id))}
+              key={product.id}
+              onClick={() => dispatch(getProductById(product.id))}
               {...product}
             />
           ))}

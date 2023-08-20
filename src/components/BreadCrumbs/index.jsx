@@ -1,10 +1,16 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import useBreadcrumbs from "use-react-router-breadcrumbs";
 import "../BreadCrumbs/breadCrumb.css";
 
-const routes = [{ path: "/results", breadcrumb: "Search Results" }];
-
 function BreadCrumbs({ open }) {
+  const params = useParams();
+  const routes = [
+    { path: "/results", breadcrumb: "Search Results" },
+    { path: "/details/:id", breadcrumb: null },
+    // { path: "/details", breadcrumb: null },
+    { path: "/details/:id/:title", breadcrumb: params.title },
+  ];
+
   const breadcrumbs = useBreadcrumbs(routes);
   const location = useLocation();
 
