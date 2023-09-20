@@ -24,3 +24,6 @@
 .category__item--img {
   object-fit: cover;
 }
+.category__item--top {
+  cursor: pointer;
+}

@@ -1,10 +1,10 @@
-import React from "react";
 import "../Discount/discount.css";
 import ButtonPrimary from "../ButtonPrimary";
+import React from "react";
 
 const Discount = ({ title, description, link, img }) => {
   const style = {
-    background: `url(${img}) `,
+    background: `url(${img}) center no-repeat `,
   };
   return (
     <section className="discount" style={style}>

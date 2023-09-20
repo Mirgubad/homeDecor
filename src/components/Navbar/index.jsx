@@ -1,6 +1,6 @@
-import React from "react";
 import "../Navbar/navbar.css";
 import { NavLink } from "react-router-dom";
+import React from "react";
 import styled from "styled-components";
 
 const StyledMenu = styled.div`
@@ -29,40 +29,35 @@ const StyledMenu = styled.div`
      }
 `;
 
-const Navbar = ({ open,setOpen }) => {
+const Navbar = ({ open, setOpen }) => {
   return (
     <StyledMenu className={`navbar ${open ? "active" : ""}`} open={open}>
       <nav className="menu">
         <menu className="menu__list">
-          <li onClick={()=>setOpen(false)} className="menu__list--item">
-            <NavLink className="link " to="/" >
+          <li onClick={() => setOpen(false)} className="menu__list--item">
+            <NavLink className="link " to="/">
               Home
             </NavLink>
           </li>
-          <li onClick={()=>setOpen(false)}  className="menu__list--item">
+          <li onClick={() => setOpen(false)} className="menu__list--item">
             <NavLink className="link" to="/about">
               About
             </NavLink>
           </li>
 
-          <li onClick={()=>setOpen(false)}  className="menu__list--item">
+          <li onClick={() => setOpen(false)} className="menu__list--item">
             <NavLink className="link" to="/products">
               Products
             </NavLink>
           </li>
 
-          <li onClick={()=>setOpen(false)}  className="menu__list--item">
+          <li onClick={() => setOpen(false)} className="menu__list--item">
             <NavLink className="link" to="/collections">
               Collections
             </NavLink>
           </li>
-          <li onClick={()=>setOpen(false)}  className="menu__list--item">
-            <NavLink className="link" to="/sale">
-              Sale
-            </NavLink>
-          </li>
 
-          <li onClick={()=>setOpen(false)}  className="menu__list--item">
+          <li onClick={() => setOpen(false)} className="menu__list--item">
             <NavLink className="link" to="/contact">
               Contact
             </NavLink>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "../ProductsContainer/products.module.css";
 
 const ProductsContainer = ({ children }) => {

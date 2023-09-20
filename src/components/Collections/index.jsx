@@ -1,5 +1,5 @@
-import React from "react";
 import "../Collections/collections.css";
+import React from "react";
 
 const Collections = ({ children }) => {
   return (

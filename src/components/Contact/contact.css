@@ -33,3 +33,9 @@
 .contact__img {
   border-radius: 5px 5px 30rem 5px;
 }
+
+.send__btn {
+  background: var(--color-primary);
+  color: var(--btn-txt-color);
+  transition: background 0.2s linear;
+}

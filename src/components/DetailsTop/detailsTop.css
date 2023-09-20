@@ -1,0 +1,29 @@
+.details {
+  margin-bottom: clamp(7.1rem, 5.435rem + 4.7573vw, 12rem);
+}
+
+.details__item {
+  display: flex;
+  /* grid-template-columns: repeat(auto-fit, minmax(min(55rem), 1fr)); */
+  flex-wrap: wrap;
+  gap: 6rem;
+  justify-content: space-between;
+}
+
+.bigSlider {
+  margin-bottom: 2.5rem;
+}
+.bigSlider .slick-slide {
+  height: 40.3rem;
+}
+
+.bigSlider .slick-slide img {
+  height: 40.3rem;
+  border-radius: var(--border-radius);
+}
+
+.smallSlider .slick-slide img {
+  height: 10rem;
+  width: 11rem;
+  border-radius: var(--border-radius);
+}

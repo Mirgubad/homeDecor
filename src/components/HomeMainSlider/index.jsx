@@ -1,6 +1,6 @@
+import "../HomeMainSlider/homemainslider.css";
 import React from "react";
 import SlickSlider from "../SlickSlider";
-import "../HomeMainSlider/homemainslider.css";
 
 const HomeMainSlider = ({ children }) => {
   const options = {

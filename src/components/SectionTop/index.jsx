@@ -1,6 +1,7 @@
-import React from "react";
 import "../SectionTop/sectionTop.css";
 import { Link } from "react-router-dom";
+import React from "react";
+
 const SectionTop = ({ title, href }) => {
   return (
     <div className="section__top ">

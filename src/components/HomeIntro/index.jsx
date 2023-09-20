@@ -1,8 +1,8 @@
-import React from "react";
 import "../HomeIntro/homeIntro.css";
 import ButtonPrimary from "../ButtonPrimary";
+import React from "react";
 
-const HomeIntro = ({title,description,link,img}) => {
+const HomeIntro = ({ title, description, link, img }) => {
   return (
     <section className="intro">
       <div className="intro__contents container">

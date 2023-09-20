@@ -1,6 +1,6 @@
-import React from "react";
 import "../Results/result.css";
 import Pagination from "../Pagination";
+import React from "react";
 
 const Results = ({ children, pageCount, currentPage, handlePageClick }) => {
   return (

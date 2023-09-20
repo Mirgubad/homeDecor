@@ -21,7 +21,7 @@
   height: 0;
 }
 /* Add margin or padding to create spacing between slide items */
-.slick-slide div {
+.slick-slide > div {
   margin-right: 1rem; /* Adjust as needed */
 }
 
@@ -35,7 +35,7 @@
 }
 .slick-dots li button:before {
   content: "";
-  background:var(--color-primary);
+  background: var(--color-primary);
   width: 1rem;
   border-radius: 50%;
   height: 1rem;

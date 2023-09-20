@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import Toast from "react-bootstrap/Toast";
 import "../PopUp/popUp.css";
 import ButtonPrimary from "../ButtonPrimary";
 import Overlay from "../Overlay";
+import React, { useState } from "react";
+import Toast from "react-bootstrap/Toast";
 
 function PopUp({ message, description }) {
-  const [showPopUp, setShowPopUp] = useState(false);
+  const [showPopUp, setShowPopUp] = useState(true);
 
-  const closePopUp = () => setShowPopUp(!showPopUp);
+  const closePopUp = () => setShowPopUp(false);
 
   return (
     <>
@@ -32,9 +32,7 @@ function PopUp({ message, description }) {
             <h2 className="popup__title"> {message}</h2>
           </Toast.Header>
           <Toast.Body>
-            <p className="popup__msg">
-             {description}
-            </p>
+            <p className="popup__msg">{description}</p>
           </Toast.Body>
           <ButtonPrimary href="/">Home Page</ButtonPrimary>
         </Toast>

@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../SortSelect/sortSelect.module.css";
 
 const SortSelect = ({ open, setOpen, sortTypes, onSortClick }) => {
-
+  const [selectedSort, setSelectedSort] = useState("Sort By");
   return (
     <div className={styles.select}>
-      <div onClick={() => setOpen(!open)} className={styles.header}>
+      <div onClick={() => setOpen(!open)} className={`${styles.header}`}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -39,16 +39,17 @@ const SortSelect = ({ open, setOpen, sortTypes, onSortClick }) => {
             strokeLinejoin="round"
           />
         </svg>
-        Sort By
+        {selectedSort}
       </div>
-      <div
-        style={{ display: open ? "block" : "none" }}
-        className={styles.options}
-      >
+      <div className={`${styles.options} ${open ? styles.expanded : ""}`}>
         {sortTypes.map((sort) => (
           <div
+            style={{ display: selectedSort !== sort.title ? "block" : "none" }}
             key={sort.id}
-            onClick={() => onSortClick(sort)}
+            onClick={() => {
+              onSortClick(sort);
+              setSelectedSort(sort.title);
+            }}
             className={styles.option}
           >
             {sort.title}

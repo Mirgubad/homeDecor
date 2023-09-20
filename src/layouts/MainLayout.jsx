@@ -1,32 +1,27 @@
-import React, { useRef, useState } from "react";
-import Header from "../components/Header";
-import Navbar from "../components/Navbar";
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "../components/Footer";
-import BreadCrumbs from "../components/BreadCrumbs";
+import Headers from "../components/Headers";
+import Notification from "../components/Notification";
+import React, { useRef, useState, useEffect } from "react";
 
 const MainLayout = () => {
   const [open, setOpen] = useState(false);
   const node = useRef();
   const location = useLocation();
+  const { pathname } = useLocation();
+  useEffect(() => {
+    document.documentElement.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [pathname]);
   return (
     <>
-      <div
-        style={{
-          position: "fixed",
-          left: 0,
-          right: 0,
-          zIndex: 9999,
-          background: "var(--main-bg)",
-        }}
-        ref={node}
-      >
-        <Header open={open} setOpen={setOpen} />
-        <Navbar open={open} setOpen={setOpen} />
-        {location.pathname !== "/" && <BreadCrumbs open={open} />}
-      </div>
+      <Headers />
+      <Notification />
       {<Outlet />}
-      <Footer />
+      {location.pathname !== "/error" && <Footer />}
     </>
   );
 };

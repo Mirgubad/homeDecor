@@ -1,28 +1,25 @@
-import styles from "../LangSelect/langselect.module.css";
-import i18n, { use } from "i18next";
+import i18n from "../../utils/i18n";
 import React, { useEffect, useState } from "react";
+import styles from "../LangSelect/langselect.module.css";
 
-
-
-const LangSelect = ({open}) => {
-  const [lang, setLang] = useState("EN");
+const LangSelect = ({ open }) => {
+  const [lang, setLang] = useState("En");
   const [opened, setOpened] = useState(false);
-
+  const languages = [{ title: "Az" }, { title: "Ru" }, { title: "En" }];
   const handleClick = () => {
     setOpened(!opened);
   };
   const handleLanguageChange = (lang) => {
     i18n.changeLanguage(lang);
-    setLang(lang.toUpperCase());
+    setLang(lang);
     localStorage.setItem("lang", JSON.stringify(lang));
-  
   };
 
   useEffect(() => {
     const chosenLang = JSON.parse(localStorage.getItem("lang"));
-    handleLanguageChange(chosenLang);
-
-   
+    chosenLang
+      ? handleLanguageChange(chosenLang)
+      : localStorage.setItem("lang", JSON.stringify("En"));
   }, [lang]);
   return (
     <div
@@ -37,36 +34,25 @@ const LangSelect = ({open}) => {
         </div>
 
         <div
-          className={`${styles.options} ${open && styles.mobile} ${
+          className={`${styles.options} ${open ? styles.mobile : ""} ${
             opened ? "d-block" : "d-none"
           }`}
         >
-          <div
-            onClick={() => handleLanguageChange("az")}
-            className={`${styles["languages__list--item"]} ${
-              lang == "AZ" && styles.active
-            }`}
-          >
-            AZ
-          </div>
-
-          <div
-            onClick={() => handleLanguageChange("ru")}
-            className={`${styles["languages__list--item"]} ${
-              lang == "RU" && styles.active
-            }`}
-          >
-            RU
-          </div>
-
-          <div
-            onClick={() => handleLanguageChange("en")}
-            className={`${styles["languages__list--item"]} ${
-              lang == "EN" && styles.active
-            }`}
-          >
-            EN
-          </div>
+          {languages.map((language) => (
+            <div
+              key={language.title}
+              style={{
+                display:
+                  lang.toUpperCase() !== language.title.toUpperCase()
+                    ? "block"
+                    : "none",
+              }}
+              onClick={() => handleLanguageChange(language.title)}
+              className={`${styles["languages__list--item"]}`}
+            >
+              {language.title}
+            </div>
+          ))}
         </div>
       </div>
     </div>

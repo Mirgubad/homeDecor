@@ -1,7 +1,8 @@
-import React from "react";
 import "../HomeCollections/homeCollections.css";
+import React from "react";
 import SectionTop from "../SectionTop";
 import SlickSlider from "../SlickSlider";
+
 const options = {
   arrows: true,
   dots: true,
@@ -25,7 +26,7 @@ const HomeCollections = ({ title, children }) => {
   return (
     <section className="collections">
       <div className="collections__content container">
-        <SectionTop title={title} href="https://www.google.com/" />
+        <SectionTop title={title} href="http://localhost:5173/collections" />
         <div className="collections__bottom ">
           <SlickSlider options={options}>{children}</SlickSlider>
         </div>

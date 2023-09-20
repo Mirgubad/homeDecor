@@ -1,23 +1,18 @@
-import React, { useEffect, useState } from "react";
-import ButtonSecondary from "../ButtonSecondary";
 import "../AboutUs/aboutUs.css";
-import SectionTop from "../SectionTop";
+import { useGetAboutUsQuery } from "../../services/aboutUs";
 import { useLocation } from "react-router-dom";
+import ButtonSecondary from "../ButtonSecondary";
+import Loader from "../Loader";
+import React, { useEffect, useState } from "react";
+import SectionTop from "../SectionTop";
 
-const AboutUs = ({ title, img, description }) => {
-  const [aboutUs, setAboutUs] = useState({});
+const AboutUs = () => {
+  const { data: aboutUs, isLoading } = useGetAboutUsQuery();
   const location = useLocation();
 
-  const getAbout = async () => {
-    const response = await fetch("http://localhost:3000/aboutUs");
-    const res = await response.json();
-    setAboutUs(res);
-  };
-
-  useEffect(() => {
-    getAbout();
-  }, []);
-  return (
+  return !aboutUs || isLoading ? (
+    <Loader />
+  ) : (
     <section className="about">
       <div className="container">
         <SectionTop title={aboutUs.title} />
@@ -41,4 +36,5 @@ const AboutUs = ({ title, img, description }) => {
   );
 };
 
-export default AboutUs;
+// Memoize the component to prevent unnecessary re-renders
+export default React.memo(AboutUs);

@@ -1,9 +1,14 @@
-import React from "react";
 import { useSetPageTitle } from "../../hooks/useSetPageTitle";
+import React from "react";
+import Register from "../../components/Auth/Register";
 
 const RegisterPage = () => {
   useSetPageTitle("Register");
-  return <main>RegisterPage</main>;
+  return (
+    <>
+      <Register />
+    </>
+  );
 };
 
 export default RegisterPage;

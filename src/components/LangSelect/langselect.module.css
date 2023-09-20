@@ -8,6 +8,7 @@
   padding: 6px 4px;
   position: relative;
   z-index: 99;
+  text-transform: capitalize;
 }
 
 .languages__list--item {
@@ -32,6 +33,7 @@
   position: fixed;
   bottom: 10rem;
   left: 1.6rem;
+
 }
 
 .options.mobile {

@@ -1,9 +1,14 @@
-import React from "react";
 import { useSetPageTitle } from "../../hooks/useSetPageTitle";
+import Login from "../../components/Auth/Login";
+import React from "react";
 
 const LoginPage = () => {
-  useSetPageTitle("Login")
-  return <main>LoginPage</main>;
+  useSetPageTitle("Login");
+  return (
+    <>
+      <Login />
+    </>
+  );
 };
 
 export default LoginPage;

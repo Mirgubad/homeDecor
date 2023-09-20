@@ -1,23 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useGetAllCollectionsQuery } from "../services/collections";
 import { useSetPageTitle } from "../hooks/useSetPageTitle";
-import SectionTop from "../components/SectionTop";
-import Collections from "../components/Collections";
 import CategoryElement from "../components/CategoryElement";
+import Collections from "../components/Collections";
+import Loader from "../components/Loader";
+import React from "react";
+import SectionTop from "../components/SectionTop";
 import SectionTopBottom from "../components/SectionTopBottom";
 
 const CollectionsPage = () => {
-  const [collections, setCollections] = useState([]);
+  const { data: collections, isLoading } = useGetAllCollectionsQuery();
 
-  const getCollections = async () => {
-    const response = await fetch("http://localhost:3000/collections");
-    const result = await response.json();
-    setCollections(result);
-  };
-  useEffect(() => {
-    getCollections();
-  }, []);
   useSetPageTitle("Collections");
-  return (
+  return isLoading || !collections ? (
+    <Loader />
+  ) : (
     <main>
       <div className="container">
         <SectionTop title="Collections" />
@@ -31,7 +27,11 @@ const CollectionsPage = () => {
         <Collections>
           {collections &&
             collections.map((collection) => (
-              <CategoryElement key={collection.id} {...collection} />
+              <CategoryElement
+                type="collections"
+                key={collection.id}
+                {...collection}
+              />
             ))}
         </Collections>
       </div>

@@ -1,15 +1,20 @@
+import { Link } from "react-router-dom";
 import React from "react";
 import styles from "./button.module.css";
 
 const ButtonPrimary = ({ children, href, disabled = false }) => {
-  return (
-    <button
+  return href ? (
+    <Link
       disabled={disabled}
-      onClick={() => (location.href = href)}
+      to={href}
       className={`btn ${styles.primary__btn}`}
     >
       {children}
-    </button>
+    </Link>
+  ) : (
+    <Link disabled={disabled} className={`btn ${styles.primary__btn}`}>
+      {children}
+    </Link>
   );
 };
 

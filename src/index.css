@@ -21,7 +21,6 @@ body {
   font-weight: 400;
   background: var(--main-bg);
   color: var(--txt-color-dark);
-  /* overflow: hidden; */
 }
 
 h1,
@@ -97,6 +96,11 @@ textarea {
   border: 1px solid var(--border-color-gray);
   background: var(--main-bg);
   border-radius: var(--border-radius);
+  min-width: 24rem;
+}
+:is(input, textarea)::placeholder {
+  color: var(--color-gray);
+  text-transform: uppercase;
 }
 
 input,
@@ -149,9 +153,6 @@ input:-webkit-autofill:active {
   -webkit-transition-delay: 9999s;
 }
 
-
-
 input[type="checkbox"] {
   display: none;
 }
-

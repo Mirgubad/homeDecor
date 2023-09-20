@@ -1,5 +1,5 @@
-import React from "react";
 import "../SectionTopBottom/sectionTopBottom.css";
+import React from "react";
 
 const SectionTopBottom = ({ children }) => {
   return (
