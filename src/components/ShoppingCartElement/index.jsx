@@ -7,6 +7,9 @@ import styles from "../ShoppingCartElement/shoppingCartElement.module.css";
 const ShoppingCartElement = ({
   img,
   title,
+  lang,
+  titleAz,
+  titleRu,
   count,
   price,
   colorName,
@@ -36,7 +39,9 @@ const ShoppingCartElement = ({
         <Link to={`/details/${id}/${title}`} className={styles.item__img}>
           <img src={img} alt="img" />
         </Link>
-        <p className={styles.item__title}>{title}</p>
+        <p className={styles.item__title}>
+          {lang === "Az" ? titleAz : lang === "Ru" ? titleRu : title}
+        </p>
       </div>
       <div className={styles["item__right"]}>
         <div
@@ -52,7 +57,8 @@ const ShoppingCartElement = ({
           />
         </div>
         <h3 className={styles.item__price}>
-          {price} <span className={styles.item__currency}>{currency}</span>
+          {price * count}{" "}
+          <span className={styles.item__currency}>{currency}</span>
         </h3>
       </div>
     </div>

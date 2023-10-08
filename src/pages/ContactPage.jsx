@@ -1,12 +1,23 @@
 import { useSetPageTitle } from "../hooks/useSetPageTitle";
 import Contact from "../components/Contact";
 import React from "react";
+import { useLang } from "../context/LangContext";
 
 const ContactPage = () => {
-  useSetPageTitle("Contact");
+  const { lang } = useLang();
+  switch (lang) {
+    case "Az":
+      useSetPageTitle("Əlaqə");
+      break;
+    case "Ru":
+      useSetPageTitle("Контакт");
+      break;
+    default:
+      useSetPageTitle("Contact");
+  }
   return (
     <main>
-      <Contact />
+      <Contact lang={lang} />
     </main>
   );
 };

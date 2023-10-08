@@ -1,16 +1,17 @@
-import { useGetAllCategoriesQuery } from "../services/category";
-import { useGetAllCollectionsQuery } from "../services/collections";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { useSetPageTitle } from "../hooks/useSetPageTitle";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Aside from "../components/Aside";
 import FilterElements from "../components/FilterElements";
 import HomeProducts from "../components/HomeProducts";
 import ProductElement from "../components/ProductElement";
 import ProductsContainer from "../components/ProductsContainer";
-import React, { useEffect, useState } from "react";
 import SectionTop from "../components/SectionTop";
 import SectionTopBottom from "../components/SectionTopBottom";
 import SortSelect from "../components/SortSelect";
+import { useLang } from "../context/LangContext";
+import { useSetPageTitle } from "../hooks/useSetPageTitle";
+import { useGetAllCategoriesQuery } from "../services/category";
+import { useGetAllCollectionsQuery } from "../services/collections";
 
 const ProductsPage = () => {
   const [open, setOpen] = useState(false);
@@ -25,11 +26,27 @@ const ProductsPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
+  const { lang } = useLang();
 
   const sortTypes = [
-    { id: 1, title: "popular first" },
-    { id: 2, title: "cheapest first" },
-    { id: 3, title: "expensive first" },
+    {
+      id: 1,
+      title: "popular first",
+      titleAz: "Populyar ilk",
+      titleRu: "Популярный первый",
+    },
+    {
+      id: 2,
+      title: "cheapest first",
+      titleAz: "Ən ucuz ilk",
+      titleRu: "Самый дешевый первый",
+    },
+    {
+      id: 3,
+      title: "expensive first",
+      titleAz: "Ən bahalı ilk",
+      titleRu: "Самый дорогой первый",
+    },
   ];
 
   const params = useParams();
@@ -102,7 +119,6 @@ const ProductsPage = () => {
         (ctId) => ctId !== filterId
       );
       setSelectedCategories(removedCategories);
-
       updatedCategoryIds = removedCategories.join(",");
     } else if (filterType === "collections") {
       removedCollections = selectedCollections.filter(
@@ -134,27 +150,49 @@ const ProductsPage = () => {
       : [];
 
     if (categoryIds.length > 0) {
+      navigate(`/products?categoryIds=${categoryIds}`);
       setSelectedCategories(categoryIds);
     }
     if (collectionIds.length > 0) {
+      navigate(`/products?collectionIds=${collectionIds}`);
       setSelectedCollections(collectionIds);
     }
   }, []);
 
-  useSetPageTitle("Products");
+  switch (lang) {
+    case "Az":
+      useSetPageTitle("Məhsullar");
+      break;
+    case "Ru":
+      useSetPageTitle("Продукты");
+      break;
+    default:
+      useSetPageTitle("Products");
+  }
   return (
     <main>
       <div className="container">
-        <SectionTop title="products" />
+        <SectionTop
+          title={
+            lang === "Az"
+              ? "Məhsullar"
+              : lang === "Ru"
+              ? "Продукты"
+              : "Products"
+          }
+        />
         <SectionTopBottom>
           <p style={{ maxWidth: "56rem" }}>
-            Et harum quidem rerum facilis est et expedita distinctio. Nam libero
-            tempore, cum soluta nobis est eligendi optio cumque nihil impedit
-            quo minus id quod maxime.
+            {lang === "Az"
+              ? "Həqiqətən də bu şeylər arasında fərq asan və məqsədəuyğundur. Çünki boş vaxtlarımızda, seçim etməkdə azad olduğumuz zaman ən yaxşısını etməyə heç nə mane olmur."
+              : lang === "Ru"
+              ? "И действительно, различие между этими вещами легко и целесообразно. Ибо в свободное время, когда мы свободны в выборе, ничто не мешает нам делать то, что лучше."
+              : "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime."}
           </p>
 
           <SortSelect
             open={open}
+            lang={lang}
             setOpen={setOpen}
             sortTypes={sortTypes}
             onSortClick={handleSortClick}
@@ -164,7 +202,10 @@ const ProductsPage = () => {
           <Aside>
             {categories && (
               <FilterElements
+                lang={lang}
                 title="Categories"
+                titleAz="Kateqoriyalar"
+                titleRu="Категории"
                 filterType="category"
                 setFilters={setSelectedCategories}
                 removeFilterClick={onRemoveFilterClick}
@@ -175,7 +216,10 @@ const ProductsPage = () => {
             )}
             {collections && (
               <FilterElements
+                lang={lang}
                 title="Collections"
+                titleAz="Kolleksiyalar"
+                titleRu="Коллекции"
                 filterType="collections"
                 setFilters={setSelectedCollections}
                 removeFilterClick={onRemoveFilterClick}
@@ -188,7 +232,7 @@ const ProductsPage = () => {
           <HomeProducts>
             {filteredProducts &&
               filteredProducts.map((product) => (
-                <ProductElement key={product.id} {...product} />
+                <ProductElement lang={lang} key={product.id} {...product} />
               ))}
           </HomeProducts>
         </ProductsContainer>

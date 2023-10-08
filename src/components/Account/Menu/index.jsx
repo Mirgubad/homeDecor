@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import React from "react";
 import styles from "./menu.module.css";
 
-const Menu = () => {
+const Menu = ({ lang }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -12,7 +12,13 @@ const Menu = () => {
   };
   return (
     <aside className={styles.menu}>
-      <h2 className={styles["menu__header"]}>My account</h2>
+      <h2 className={styles["menu__header"]}>
+        {lang === "Az"
+          ? "Hesabım"
+          : lang === "Ru"
+          ? "Мой аккаунт"
+          : "My account"}
+      </h2>
       <menu className={styles["menu__list"]}>
         <li className={styles["menu__list--item"]}>
           <Link to="/myaccount/info">
@@ -50,7 +56,13 @@ const Menu = () => {
               </svg>
             )}
 
-            <p> personal information</p>
+            <p>
+              {lang === "Az"
+                ? "Məlumatlarım"
+                : lang === "Ru"
+                ? "Мои данные"
+                : "personal info"}
+            </p>
           </Link>
         </li>
         <li className={styles["menu__list--item"]}>
@@ -83,7 +95,14 @@ const Menu = () => {
               </svg>
             )}
 
-            <p> wish list</p>
+            <p>
+              {" "}
+              {lang === "Az"
+                ? "İstək listim"
+                : lang === "Ru"
+                ? "Список желаний"
+                : "Wishlist"}
+            </p>
           </Link>
         </li>
         <li onClick={handleLogout} className={styles["menu__list--item"]}>

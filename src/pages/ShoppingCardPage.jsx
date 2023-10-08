@@ -1,15 +1,17 @@
-import { useGetAllBasketProductsQuery } from "../services/basketProducts";
-import { useGetAllProductsQuery } from "../services/product";
-import { useSetPageTitle } from "../hooks/useSetPageTitle";
-import Loader from "../components/Loader";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SectionTop from "../components/SectionTop";
 import ShoppingCardItems from "../components/ShoppingCardItems";
 import ShoppingCartContainer from "../components/ShoppingCartContainer";
 import Summary from "../components/Summary";
+import { useLang } from "../context/LangContext";
+import { useSetPageTitle } from "../hooks/useSetPageTitle";
+import { useGetAllBasketProductsQuery } from "../services/basketProducts";
+import { useGetAllProductsQuery } from "../services/product";
 
 const ShoppingCardPage = () => {
+  const { lang } = useLang();
   const [totalPriceForSummary, setTotalPriceForSummary] = useState(0);
+  const [totalCountForSummary, setTotalCountForSummary] = useState(0);
   const { data: products, isLoading: productsIsLoading } =
     useGetAllProductsQuery();
   const {
@@ -29,29 +31,50 @@ const ShoppingCardPage = () => {
     refetchBasketProducts();
   }, []);
 
-  useSetPageTitle("Shopping cart");
+  switch (lang) {
+    case "Az":
+      useSetPageTitle("Səbət");
+      break;
+    case "Ru":
+      useSetPageTitle("Корзина");
+      break;
+    default:
+      useSetPageTitle("Shopping cart");
+  }
 
-  return basketProductsIsLoading ||
-    productsIsLoading ||
-    !basketProducts ||
-    !products ? (
-    <Loader />
-  ) : (
+  return (
     <main>
       <div className="container">
-        <SectionTop title="Shopping cart" />
+        <SectionTop
+          title={
+            lang === "Az"
+              ? "Səbət"
+              : lang === "Ru"
+              ? "Корзина"
+              : "Shopping cart"
+          }
+        />
         {filteredBasketProducts?.length > 0 ? (
-          <ShoppingCartContainer>
+          <ShoppingCartContainer lang={lang}>
             <ShoppingCardItems
+              lang={lang}
+              setTotalCountForSummary={setTotalCountForSummary}
               setTotalPriceForSummary={setTotalPriceForSummary}
             />
             <Summary
-              count={filteredBasketProducts?.length}
+              lang={lang}
+              count={totalCountForSummary}
               totalPriceForSummary={totalPriceForSummary}
             />
           </ShoppingCartContainer>
         ) : (
-          <p style={{ textAlign: "center" }}>Your shopping cart is empty...</p>
+          <h2 style={{ textAlign: "center" }}>
+            {lang === "Az"
+              ? "Səbətiniz boşdur"
+              : lang === "Ru"
+              ? "Ваша корзина пуста"
+              : "Your basket is empty"}
+          </h2>
         )}
       </div>
     </main>

@@ -22,11 +22,15 @@ const options = {
     },
   ],
 };
-const HomeCollections = ({ title, children }) => {
+const HomeCollections = ({ title, children, lang }) => {
   return (
     <section className="collections">
       <div className="collections__content container">
-        <SectionTop title={title} href="http://localhost:5173/collections" />
+        <SectionTop
+          lang={lang}
+          title={title}
+          href="http://localhost:5173/collections"
+        />
         <div className="collections__bottom ">
           <SlickSlider options={options}>{children}</SlickSlider>
         </div>

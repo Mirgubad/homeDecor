@@ -3,12 +3,15 @@ import Footer from "../components/Footer";
 import Headers from "../components/Headers";
 import Menu from "../components/Account/Menu";
 import Notification from "../components/Notification";
-import React from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { useLang } from "../context/LangContext";
 
 const AccountLayout = () => {
+  const { lang, setLang } = useLang();
   return (
     <>
-      <Headers />
+      <Headers lang={lang} setLang={setLang} />
       <Notification />
       <main>
         <div
@@ -21,7 +24,7 @@ const AccountLayout = () => {
           }}
           className="container"
         >
-          <Menu />
+          <Menu lang={lang} />
           {<Outlet />}
         </div>
       </main>

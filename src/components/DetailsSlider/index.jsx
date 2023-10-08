@@ -15,6 +15,7 @@ const DetailsSlider = ({ children }) => {
     setBigImg(big.current);
     setSmallImg(small.current);
   }, []);
+
   return (
     <div className="sliders__container">
       <div className="bigSlider">

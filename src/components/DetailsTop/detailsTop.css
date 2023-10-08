@@ -4,7 +4,6 @@
 
 .details__item {
   display: flex;
-  /* grid-template-columns: repeat(auto-fit, minmax(min(55rem), 1fr)); */
   flex-wrap: wrap;
   gap: 6rem;
   justify-content: space-between;
@@ -13,9 +12,6 @@
 .bigSlider {
   margin-bottom: 2.5rem;
 }
-.bigSlider .slick-slide {
-  height: 40.3rem;
-}
 
 .bigSlider .slick-slide img {
   height: 40.3rem;
@@ -23,7 +19,14 @@
 }
 
 .smallSlider .slick-slide img {
-  height: 10rem;
-  width: 11rem;
+  height: 100%;
+  max-height: 10rem;
+  max-width: 19.5rem !important;
   border-radius: var(--border-radius);
+}
+
+@media screen and (max-width: 600px) {
+  .bigSlider .slick-slide img {
+    height: 28.8rem;
+  }
 }

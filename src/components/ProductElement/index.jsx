@@ -4,9 +4,18 @@ import { useState } from "react";
 import React from "react";
 import toast from "react-hot-toast";
 
-const ProductElement = ({ img, title, price, currency, onClick, id }) => {
+const ProductElement = ({
+  img,
+  title,
+  titleRu,
+  titleAz,
+  price,
+  currency,
+  onClick,
+  id,
+  lang,
+}) => {
   const [added, setAdded] = useState(false);
-
   const products = JSON.parse(localStorage.getItem("favourites")) || [];
 
   const handleWishBtnClick = (id) => {
@@ -25,11 +34,22 @@ const ProductElement = ({ img, title, price, currency, onClick, id }) => {
     setAdded(!added);
   };
 
+  const handleLangChange = () => {
+    switch (lang) {
+      case "Az":
+        return titleAz;
+      case "Ru":
+        return titleRu;
+      default:
+        return title;
+    }
+  };
+
   return (
     <article onClick={onClick} className="product__item">
       <div className="product__top">
-        <Link to={`/details/${id}/${title}`}>
-          <img className="product__img" src={img} alt={title} />
+        <Link to={`/details/${id}/${handleLangChange()}`}>
+          <img className="product__img" src={img} alt={handleLangChange()} />
         </Link>
         <span
           onClick={() => handleWishBtnClick(id)}
@@ -69,7 +89,7 @@ const ProductElement = ({ img, title, price, currency, onClick, id }) => {
         </span>
       </div>
       <div className="product__bottom">
-        <p className="product__item--title">{title}</p>
+        <p className="product__item--title">{handleLangChange()}</p>
         <h3 className="product__item--price">
           {price}
           <span className="product__item--currency">{currency}</span>

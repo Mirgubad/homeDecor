@@ -1,25 +1,51 @@
-import { useGetAllProductsQuery } from "../services/product";
-import { useLocation } from "react-router-dom";
-import Loader from "../components/Loader";
-import ProductElement from "../components/ProductElement";
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import ProductElement from "../components/ProductElement";
 import Results from "../components/Results";
 import SectionTop from "../components/SectionTop";
+import { useLang } from "../context/LangContext";
+import { useSetPageTitle } from "../hooks/useSetPageTitle";
+import { useGetAllProductsQuery } from "../services/product";
 
-const SearchResultsPage = ({ key }) => {
+const SearchResultsPage = () => {
+  const { lang } = useLang();
+  switch (lang) {
+    case "Az":
+      useSetPageTitle("Axtarış");
+      break;
+    case "Ru":
+      useSetPageTitle("Поиск");
+      break;
+    default:
+      useSetPageTitle("Search");
+  }
+
   const [currentPage, setCurrentPage] = useState(0);
   const [searchResults, setSearchResults] = useState([]);
   const { data: products, isLoading } = useGetAllProductsQuery();
   const { search } = useLocation();
-  const productsPerPage = 8;
+  const productsPerPage = 4;
   const queryString = new URLSearchParams(search);
   const searchValue = decodeURIComponent(queryString.get("search"));
 
   useEffect(() => {
     if (searchValue !== "") {
-      const results = products?.filter((product) =>
-        product.title.toLowerCase().includes(searchValue.toLowerCase())
-      );
+      const results = products?.filter((product) => {
+        switch (lang) {
+          case "Az":
+            return product.titleAz
+              .toLowerCase()
+              .includes(searchValue.toLowerCase());
+          case "Ru":
+            return product.titleRu
+              .toLowerCase()
+              .includes(searchValue.toLowerCase());
+          default:
+            return product.title
+              .toLowerCase()
+              .includes(searchValue.toLowerCase());
+        }
+      });
       setSearchResults(results);
     }
   }, [searchValue, products]);
@@ -35,13 +61,22 @@ const SearchResultsPage = ({ key }) => {
   );
   const pageCount = Math.ceil(searchResults?.length / productsPerPage);
 
-  return isLoading || !products ? (
-    <Loader />
-  ) : (
+  return (
     <main>
       <div className="container">
-        <SectionTop title="Search results" />
-        <p style={{ marginBottom: "5rem" }}>Your results for "{searchValue}"</p>
+        <SectionTop
+          title={
+            lang === "Az"
+              ? "Axtarış nəticəsi"
+              : lang === "Ru"
+              ? "Поиск результатов "
+              : "Search results"
+          }
+        />
+        <p style={{ marginBottom: "5rem" }}>
+          {lang === "Az" ? "Axtarış:" : lang === "Ru" ? "Поиск:" : "Search:"} "
+          {searchValue}"
+        </p>
         {currentProducts && currentProducts.length > 0 ? (
           <Results
             pageCount={pageCount}
@@ -49,11 +84,17 @@ const SearchResultsPage = ({ key }) => {
             handlePageClick={handlePageClick}
           >
             {currentProducts?.map((product) => (
-              <ProductElement key={product.id} {...product} />
+              <ProductElement lang={lang} key={product.id} {...product} />
             ))}
           </Results>
         ) : (
-          <h2 style={{ marginBottom: "5rem" }}>No results found...</h2>
+          <h2 style={{ marginBottom: "5rem" }}>
+            {lang === "Az"
+              ? "Axtarış nəticəsi tapılmadı"
+              : lang === "Ru"
+              ? "Поиск результатов не дал результатов"
+              : "Search results not found"}
+          </h2>
         )}
       </div>
     </main>

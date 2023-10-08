@@ -3,12 +3,15 @@ import Footer from "../components/Footer";
 import Headers from "../components/Headers";
 import Notification from "../components/Notification";
 import React, { useRef, useState, useEffect } from "react";
+import { useLang } from "../context/LangContext";
 
 const MainLayout = () => {
+  const { lang, setLang } = useLang();
   const [open, setOpen] = useState(false);
   const node = useRef();
   const location = useLocation();
   const { pathname } = useLocation();
+
   useEffect(() => {
     document.documentElement.scrollTo({
       top: 0,
@@ -18,7 +21,7 @@ const MainLayout = () => {
   }, [pathname]);
   return (
     <>
-      <Headers />
+      <Headers lang={lang} setLang={setLang} />
       <Notification />
       {<Outlet />}
       {location.pathname !== "/error" && <Footer />}

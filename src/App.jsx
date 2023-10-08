@@ -1,28 +1,28 @@
-import React, { lazy, Suspense } from "react";
+import React, { Suspense, lazy } from "react";
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const CheckOut = lazy(() => import("./pages/CheckOut"));
+const CollectionsPage = lazy(() => import("./pages/CollectionsPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const DetailPage = lazy(() => import("./pages/DetailPage"));
+const ErrorsPage = lazy(() => import("./pages/ErrorsPage"));
+const ForgotPassword = lazy(() => import("./pages/Auth/ForgotPassword"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const Info = lazy(() => import("./pages/Account/Info"));
+const LoginPage = lazy(() => import("./pages/Auth/LoginPage"));
+const ProductsPage = lazy(() => import("./pages/ProductsPage"));
+const RegisterPage = lazy(() => import("./pages/Auth/RegisterPage"));
+const ResetPassword = lazy(() => import("./pages/Auth/ResetPassword"));
+const SearchResultsPage = lazy(() => import("./pages/SearchResultsPage"));
+const ShoppingCardPage = lazy(() => import("./pages/ShoppingCardPage"));
+const VerificationReset = lazy(() => import("./pages/Auth/VerificationReset"));
 const WishList = lazy(() => import("./pages/Account/WishList"));
 import "./index.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import AccountLayout from "./layouts/AccountLayout";
-import CollectionsPage from "./pages/CollectionsPage";
-import ContactPage from "./pages/ContactPage";
-import DetailPage from "./pages/DetailPage";
-import ErrorsPage from "./pages/ErrorsPage";
-import ForgotPassword from "./pages/Auth/ForgotPassword";
 import Loader from "./components/Loader";
-import LoginPage from "./pages/Auth/LoginPage";
 import LoginRegisterLayout from "./layouts/LoginRegisterLayout";
 import MainLayout from "./layouts/MainLayout";
-import ProductsPage from "./pages/ProductsPage";
 import ProtectedRoute from "./utils/ProtectecRoute";
-import RegisterPage from "./pages/Auth/RegisterPage";
-import ResetPassword from "./pages/Auth/ResetPassword";
-import SearchResultsPage from "./pages/SearchResultsPage";
-import ShoppingCardPage from "./pages/ShoppingCardPage";
-import VerificationReset from "./pages/Auth/VerificationReset";
 
 const App = () => {
   return (
@@ -34,7 +34,14 @@ const App = () => {
               <Route path="/" element={<HomePage />}></Route>
               <Route path="/about" element={<AboutPage />}></Route>
               <Route path="/products" element={<ProductsPage />}></Route>
-              <Route path="/checkout" element={<CheckOut />}></Route>
+              <Route
+                path="/checkout"
+                element={
+                  <ProtectedRoute>
+                    <CheckOut />
+                  </ProtectedRoute>
+                }
+              ></Route>
               <Route path="/collections" element={<CollectionsPage />}></Route>
               <Route path="/contact" element={<ContactPage />}></Route>
               <Route
@@ -50,7 +57,7 @@ const App = () => {
                 path="/details/:id/:title"
                 element={<DetailPage />}
               ></Route>
-              <Route path="error" element={<ErrorsPage />}></Route>
+              <Route path="*" element={<ErrorsPage />} />
             </Route>
 
             <Route path="auth/" element={<LoginRegisterLayout />}>
@@ -64,7 +71,14 @@ const App = () => {
               <Route path="login" element={<LoginPage />}></Route>
             </Route>
 
-            <Route path="myaccount/" element={<AccountLayout />}>
+            <Route
+              path="myaccount/"
+              element={
+                <ProtectedRoute>
+                  <AccountLayout />
+                </ProtectedRoute>
+              }
+            >
               <Route path="info" element={<Info />}></Route>
               <Route path="wishlist" element={<WishList />}></Route>
             </Route>

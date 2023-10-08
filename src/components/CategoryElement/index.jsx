@@ -1,23 +1,22 @@
-import "./categoryel.css";
-import { useNavigate } from "react-router-dom";
 import React from "react";
+import { Link } from "react-router-dom";
+import "./categoryel.css";
 
-const CategoryElement = ({ img, title, id, type }) => {
-  const navigate = useNavigate();
-  const handleClick = () => {
-    if (type === "category") {
-      navigate(`/products?categoryIds=${id}&collectionIds=`);
-    } else if (type === "collections") {
-      navigate(`/products?categoryIds=&collectionIds=${id}`);
-    }
-  };
+const CategoryElement = ({ img, title, titleRu, titleAz, id, type, lang }) => {
   return (
     <article className="category__item">
-      <div className="category__item--top" onClick={() => handleClick(type)}>
+      <Link
+        to={`/products?${
+          type === "category" ? `categoryIds=${id}` : `collectionIds=${id}`
+        }`}
+        className="category__item--top"
+      >
         <img className="category__item--img" src={img} alt={title} />
-      </div>
+      </Link>
       <div className="category__item--bottom">
-        <span className="category__item--title">{title}</span>
+        <span className="category__item--title">
+          {lang === "Ru" ? titleRu : lang === "Az" ? titleAz : title}
+        </span>
       </div>
     </article>
   );

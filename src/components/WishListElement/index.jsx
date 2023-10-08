@@ -2,7 +2,17 @@ import { Link } from "react-router-dom";
 import React from "react";
 import styles from "./item.module.css";
 
-const WishListElement = ({ img, title, price, currency, id, onDelete }) => {
+const WishListElement = ({
+  img,
+  title,
+  titleAz,
+  titleRu,
+  price,
+  currency,
+  id,
+  onDelete,
+  lang,
+}) => {
   return (
     <article className={styles.item}>
       <Link to={`/details/${id}/${title}`} className={styles["item__left"]}>
@@ -10,7 +20,9 @@ const WishListElement = ({ img, title, price, currency, id, onDelete }) => {
       </Link>
       <div className={styles["item__right"]}>
         <div className={styles["item__right--top"]}>
-          <p className={styles["item__title"]}>{title}</p>
+          <p className={styles["item__title"]}>
+            {lang === "Az" ? titleAz : lang === "Ru" ? titleRu : title}
+          </p>
           <span className={styles["wish__btn"]} onClick={() => onDelete()}>
             <svg
               xmlns="http://www.w3.org/2000/svg"

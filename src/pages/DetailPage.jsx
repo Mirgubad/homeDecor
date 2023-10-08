@@ -1,19 +1,29 @@
-import { useGetProductByIdQuery } from "../services/product";
+import React from "react";
 import { useParams } from "react-router-dom";
 import DetailsSlider from "../components/DetailsSlider";
 import DetailsTop from "../components/DetailsTop";
-import Loader from "../components/Loader";
 import ProductDetails from "../components/ProductDetails";
-import React from "react";
 import SimilarItems from "../components/SimilarItems";
+import { useLang } from "../context/LangContext";
+import { useSetPageTitle } from "../hooks/useSetPageTitle";
+import { useGetProductByIdQuery } from "../services/product";
 
 const DetailPage = () => {
+  const { lang } = useLang();
+  switch (lang) {
+    case "Az":
+      useSetPageTitle("Məhsul");
+      break;
+    case "Ru":
+      useSetPageTitle("Товар");
+      break;
+    default:
+      useSetPageTitle("Product");
+  }
   const params = useParams();
   const { data: product, isLoading } = useGetProductByIdQuery(params.id);
 
-  return isLoading || !product ? (
-    <Loader />
-  ) : (
+  return (
     <main>
       <DetailsTop>
         <DetailsSlider>
@@ -53,10 +63,14 @@ const DetailPage = () => {
             alt=""
           />
         </DetailsSlider>
-        {product && <ProductDetails {...product} />}
+        {product && <ProductDetails lang={lang} {...product} />}
       </DetailsTop>
       {product && (
-        <SimilarItems productId={product.id} categoryId={product.categoryId} />
+        <SimilarItems
+          lang={lang}
+          productId={product.id}
+          categoryId={product.categoryId}
+        />
       )}
     </main>
   );

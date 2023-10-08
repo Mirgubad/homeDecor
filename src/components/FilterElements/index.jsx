@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import styles from "../FilterElements/filterElements.module.css";
 
 const FilterElement = React.memo(function FilterElements({
@@ -9,9 +9,12 @@ const FilterElement = React.memo(function FilterElements({
   removeFilterClick,
   setFilters,
   filterItems,
-  rotate,
   title,
+  titleAz,
+  titleRu,
+  lang,
 }) {
+  const navigate = useNavigate();
   const initialCheckboxesState = {
     all: true,
     ...options.reduce((options, { title }) => {
@@ -19,8 +22,24 @@ const FilterElement = React.memo(function FilterElements({
       return options;
     }, {}),
   };
+  const location = useLocation();
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const categoryIds = searchParams.get("categoryIds");
+    const collectionIds = searchParams.get("collectionIds");
+
+    if (filterType === "category" && filterItems.length === 0) {
+      searchParams.delete("categoryIds");
+      const updatedURL = `${location.pathname}?${searchParams.toString()}`;
+      navigate(`${updatedURL}`, { replace: true });
+    } else if (filterType === "collections" && filterItems.length === 0) {
+      searchParams.delete("collectionIds");
+      const updatedURL = `${location.pathname}?${searchParams.toString()}`;
+      navigate(`${updatedURL}`, { replace: true });
+    }
+  }, [filterItems]);
+
   const [isExpanded, setIsExpanded] = useState(false);
   const [checkboxes, setCheckboxes] = useState(initialCheckboxesState);
   const uniqueAllId = `all-${filterType}`;
@@ -50,7 +69,7 @@ const FilterElement = React.memo(function FilterElements({
         onClick={() => setIsExpanded(!isExpanded)}
         className={styles.filters__title}
       >
-        {title}
+        {lang === "Az" ? titleAz : lang === "Ru" ? titleRu : title}
         <span
           style={{ transform: isExpanded ? "rotate(180deg)" : "" }}
           className={styles["filters__title--arrow"]}
@@ -123,9 +142,9 @@ const FilterElement = React.memo(function FilterElements({
               />
             </svg>
           )}
-          All
+          {lang === "Az" ? "hamısı" : lang === "Ru" ? "все" : "all"}
         </label>
-        {options.map(({ title, id }) => (
+        {options.map(({ title, titleAz, titleRu, id }) => (
           <label
             key={title}
             className={styles["filters__item--label"]}
@@ -179,7 +198,7 @@ const FilterElement = React.memo(function FilterElements({
                 />
               </svg>
             )}
-            {title}
+            {lang === "Az" ? titleAz : lang === "Ru" ? titleRu : title}
           </label>
         ))}
       </div>

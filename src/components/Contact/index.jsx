@@ -7,12 +7,12 @@ import SectionTop from "../SectionTop";
 import TextAreaYup from "../TextAreaYup";
 import TextInputYup from "../TextInputYup";
 
-const Contact = () => {
+const Contact = ({ lang }) => {
   const [submitted, setSubmitted] = useState(false);
 
   const validationSchema = Yup.object({
     name: Yup.string()
-      .min(5, "Name must be at least 3 characters")
+      .min(3, "Name must be at least 3 characters")
       .required("Name is required"),
     email: Yup.string()
       .email("Invalid email address")
@@ -21,7 +21,7 @@ const Contact = () => {
       .min(3, "Theme must be at least 3 characters")
       .required("Theme is required"),
     message: Yup.string()
-      .min(20, "Message must be at least 20 characters")
+      .min(20, "Message must be minimum 20 characters")
       .required("Message is required"),
   });
 
@@ -36,7 +36,11 @@ const Contact = () => {
         />
       )}
       <div className="container">
-        <SectionTop title="Contact" />
+        <SectionTop
+          title={
+            lang === "Ru" ? "Контакты" : lang === "Az" ? "Əlaqə" : "Contact"
+          }
+        />
         <div className="contact__items ">
           <div className="contact__left">
             <Formik
@@ -47,37 +51,68 @@ const Contact = () => {
                 message: "",
               }}
               validationSchema={validationSchema}
-              onSubmit={(message) => {
+              onSubmit={(message, { resetForm }) => {
                 console.table(message);
                 setSubmitted(true);
+                resetForm();
               }}
             >
               <Form className="contactForm">
                 <TextInputYup
                   name="name"
                   type="text"
-                  placeholder="NAME, SURNAME"
+                  placeholder={
+                    lang === "Az"
+                      ? "Adınız,Soyadınız"
+                      : lang === "Ru"
+                      ? "Ваше имя, фамилия"
+                      : "Your name, surname"
+                  }
                 />
 
                 <TextInputYup
                   type="email"
                   name="email"
-                  placeholder="E-mail address"
+                  placeholder={
+                    lang === "Az"
+                      ? "Email ünvanınız"
+                      : lang === "Ru"
+                      ? "Ваш адрес электронной почты"
+                      : "Your email address"
+                  }
                 />
 
                 <TextInputYup
                   type="text"
                   id="theme"
                   name="theme"
-                  placeholder="THEME"
+                  placeholder={
+                    lang === "Az" ? "Mövzu" : lang === "Ru" ? "Тема" : "Theme"
+                  }
                 />
                 <TextAreaYup
                   id="message"
                   name="message"
-                  placeholder="YOUR MESSAGE"
+                  placeholder={
+                    lang === "Az"
+                      ? "Mesajınız"
+                      : lang === "Ru"
+                      ? "Ваше сообщение"
+                      : "Your message"
+                  }
                 ></TextAreaYup>
 
-                <input className="btn send__btn" type="submit" value="Send" />
+                <input
+                  className="btn send__btn"
+                  type="submit"
+                  value={
+                    lang === "Az"
+                      ? "Göndər"
+                      : lang === "Ru"
+                      ? "Отправить"
+                      : "Send"
+                  }
+                />
               </Form>
             </Formik>
           </div>

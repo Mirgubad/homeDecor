@@ -8,6 +8,7 @@ import { homeIntroApi } from "../services/homeIntro";
 import { productsApi } from "../services/product";
 import { statisticsApi } from "../services/statistics";
 import { usersApi } from "../services/user";
+import { colorsApi } from "../services/colors";
 
 // Configure the Redux store
 const store = configureStore({
@@ -21,6 +22,7 @@ const store = configureStore({
     [productsApi.reducerPath]: productsApi.reducer,
     [statisticsApi.reducerPath]: statisticsApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
+    [colorsApi.reducerPath]: colorsApi.reducer,
     // Add other reducers if needed
   },
   middleware: (getDefaultMiddleware) =>
@@ -33,7 +35,8 @@ const store = configureStore({
       homeIntroApi.middleware,
       productsApi.middleware,
       statisticsApi.middleware,
-      usersApi.middleware
+      usersApi.middleware,
+      colorsApi.middleware
     ),
 });
 

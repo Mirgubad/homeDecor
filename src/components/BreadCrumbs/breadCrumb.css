@@ -1,5 +1,5 @@
 .breadCrumbs {
-  margin-bottom: 4.9rem;
+  margin-bottom: clamp(0rem, -1.4189rem + 4.434vw, 4.9rem);
 }
 
 .breadcrumb-not-active {
@@ -24,4 +24,5 @@
   position: absolute;
   color: var(--txt-color-dark-gray);
   left: -2rem;
+  top: 0;
 }

@@ -2,14 +2,72 @@ import "../BreadCrumbs/breadCrumb.css";
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import useBreadcrumbs from "use-react-router-breadcrumbs";
 
-function BreadCrumbs({ open }) {
+function BreadCrumbs({ open, lang }) {
   const params = useParams();
   const routes = [
-    { path: "/results", breadcrumb: "Search Results" },
-    { path: "/myaccount", breadcrumb: "My Account" },
-    { path: "/card", breadcrumb: "Shopping Cart" },
+    {
+      path: "/",
+      breadcrumb:
+        lang === "Az" ? "Ana Səhifə" : lang === "Ru" ? "Главная" : "Home",
+    },
+    {
+      path: "/about",
+      breadcrumb:
+        lang === "Az" ? "Haqqımızda" : lang === "Ru" ? "О нас" : "About Us",
+    },
+    {
+      path: "/contact",
+      breadcrumb:
+        lang === "Az" ? "Əlaqə" : lang === "Ru" ? "Контакты" : "Contact",
+    },
+    {
+      path: "/collections",
+      breadcrumb:
+        lang === "Az"
+          ? "Kolleksiyalar"
+          : lang === "Ru"
+          ? "Коллекции"
+          : "Collections",
+    },
+    {
+      path: "/checkout",
+      breadcrumb:
+        lang === "Az" ? "Ödəniş" : lang === "Ru" ? "Оплата" : "Checkout",
+    },
+    {
+      path: "/products",
+      breadcrumb:
+        lang === "Az" ? "Məhsullar" : lang === "Ru" ? "Товары" : "Products",
+    },
+    {
+      path: "/results",
+      breadcrumb:
+        lang === "Az"
+          ? "Axtarış Nəticələri"
+          : lang === "Ru"
+          ? "Результаты поиска"
+          : "Search Results",
+    },
+    {
+      path: "/myaccount",
+      breadcrumb:
+        lang === "Az"
+          ? "Hesabım"
+          : lang === "Ru"
+          ? "Мой аккаунт"
+          : "My Account",
+    },
+    {
+      path: "/card",
+      breadcrumb:
+        lang === "Az" ? "Səbət" : lang === "Ru" ? "Корзина" : "Shopping Cart",
+    },
     { path: "/details/:id", breadcrumb: null },
-    { path: "/details", breadcrumb: "Products" },
+    {
+      path: "/details",
+      breadcrumb:
+        lang === "Az" ? "Məhsullar" : lang === "Ru" ? "Товар" : "Products",
+    },
     { path: "/details/:id/:title", breadcrumb: params.title },
   ];
 

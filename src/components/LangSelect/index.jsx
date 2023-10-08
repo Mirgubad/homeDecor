@@ -2,8 +2,7 @@ import i18n from "../../utils/i18n";
 import React, { useEffect, useState } from "react";
 import styles from "../LangSelect/langselect.module.css";
 
-const LangSelect = ({ open }) => {
-  const [lang, setLang] = useState("En");
+const LangSelect = ({ open, setLang, lang }) => {
   const [opened, setOpened] = useState(false);
   const languages = [{ title: "Az" }, { title: "Ru" }, { title: "En" }];
   const handleClick = () => {
@@ -38,19 +37,19 @@ const LangSelect = ({ open }) => {
             opened ? "d-block" : "d-none"
           }`}
         >
-          {languages.map((language) => (
+          {languages?.map((language) => (
             <div
               key={language.title}
               style={{
                 display:
-                  lang.toUpperCase() !== language.title.toUpperCase()
+                  lang?.toUpperCase() !== language?.title?.toUpperCase()
                     ? "block"
                     : "none",
               }}
-              onClick={() => handleLanguageChange(language.title)}
+              onClick={() => handleLanguageChange(language?.title)}
               className={`${styles["languages__list--item"]}`}
             >
-              {language.title}
+              {language?.title}
             </div>
           ))}
         </div>

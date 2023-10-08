@@ -2,9 +2,10 @@ import { useEffect } from "react";
 import React, { useState } from "react";
 import styles from "../Colors/colors.module.css";
 
-const Colors = ({ colors, title, setColorId }) => {
+const Colors = ({ colors, title, setColorId, lang }) => {
   const [checked, setChecked] = useState(0);
   const [productColors, setProductColors] = useState([]);
+
   const getColors = async () => {
     const response = await fetch("http://localhost:3000/colors");
     const res = await response.json();
@@ -17,12 +18,16 @@ const Colors = ({ colors, title, setColorId }) => {
   useEffect(() => {
     getColors();
   }, []);
-
+  useEffect(() => {
+    setColorId(productColors[0]?.id);
+  }, [productColors]);
   return (
     <div className={styles["colors"]}>
       {title && (
         <p className={styles["colors__title"]}>
-          <strong>Colors</strong>
+          <strong>
+            {lang === "Az" ? "Rənglər" : lang === "Ru" ? "Цвета" : "Colors"}
+          </strong>
         </p>
       )}
 

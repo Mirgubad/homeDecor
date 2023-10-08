@@ -2,13 +2,31 @@ import "../HomeIntro/homeIntro.css";
 import ButtonPrimary from "../ButtonPrimary";
 import React from "react";
 
-const HomeIntro = ({ title, description, link, img }) => {
+const HomeIntro = ({
+  title,
+  titleRu,
+  titleAz,
+  description,
+  descriptionRu,
+  descriptionAz,
+  link,
+  lang,
+  img,
+}) => {
   return (
     <section className="intro">
       <div className="intro__contents container">
         <div className="intro__left">
-          <h1 className="intro__left--title">{title}</h1>
-          <p className="intro__left--description">{description}</p>
+          <h1 className="intro__left--title">
+            {lang === "Ru" ? titleRu : lang === "Az" ? titleAz : title}
+          </h1>
+          <p className="intro__left--description">
+            {lang === "Ru"
+              ? descriptionRu
+              : lang === "Az"
+              ? descriptionAz
+              : description}
+          </p>
           <ButtonPrimary href={link}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +50,11 @@ const HomeIntro = ({ title, description, link, img }) => {
                 fill="#EAE6DF"
               />
             </svg>
-            Shop now
+            {lang === "Az"
+              ? "İndi alın"
+              : lang === "Ru"
+              ? "Получи это сейчас"
+              : "Shop now"}
           </ButtonPrimary>
         </div>
         <div className="intro__right">

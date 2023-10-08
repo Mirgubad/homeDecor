@@ -3,7 +3,7 @@
 }
 
 .details__title {
-  font-size: clamp(0.15rem, -0.5248rem + 4.3186vw, 3.2rem);
+  font-size: clamp(2.5rem, -0.5248rem + 4.3186vw, 3.2rem);
   margin-bottom: clamp(3rem, 2.7961rem + 0.5825vw, 3.6rem);
 }
 

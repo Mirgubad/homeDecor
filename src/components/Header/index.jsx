@@ -2,10 +2,10 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Burger from "../Burger";
 import LangSelect from "../LangSelect";
 import OverLay from "../Overlay";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../Header/header.module.css";
 
-const Header = ({ open, setOpen }) => {
+const Header = ({ open, setOpen, setLang, lang }) => {
   const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
   const [user, setUser] = useState(
@@ -38,7 +38,7 @@ const Header = ({ open, setOpen }) => {
       {showSearch && <OverLay />}
       <div className={`${styles.header__items} container`}>
         <div className={styles["header__items--left"]}>
-          <LangSelect open={open} />
+          <LangSelect lang={lang} setLang={setLang} open={open} />
           <div
             className={`${styles.search} ${showSearch ? styles.fixed : ""} `}
           >
@@ -69,6 +69,9 @@ const Header = ({ open, setOpen }) => {
               className={`${styles["search__container"]} container`}
             >
               <input
+                onKeyDown={(e) => {
+                  e.key === "Enter" && handleSearch();
+                }}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="SEARCH OUR STORE"
                 className={styles.search__input}
@@ -102,9 +105,11 @@ const Header = ({ open, setOpen }) => {
         </NavLink>
 
         <div
-          className={`${styles["header__items--right"]} ${open && "d-block"}`}
+          className={`${styles["header__items--right"]} ${
+            open ? "d-block" : ""
+          }`}
         >
-          <NavLink to="/card">
+          <NavLink onClick={() => setOpen(false)} to="/card">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -129,7 +134,10 @@ const Header = ({ open, setOpen }) => {
             </svg>
           </NavLink>
 
-          <NavLink to={`${!user ? "auth/login" : "/myaccount/info"}`}>
+          <NavLink
+            onClick={() => setOpen(false)}
+            to={`${!user ? "auth/login" : "/myaccount/info"}`}
+          >
             {user ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"

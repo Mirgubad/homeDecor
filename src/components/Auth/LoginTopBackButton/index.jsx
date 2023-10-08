@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import React from "react";
 import styles from "../LoginTopBackButton/login.module.css";
 
-const LoginTopBackButton = () => {
+const LoginTopBackButton = ({ lang }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -30,7 +30,7 @@ const LoginTopBackButton = () => {
             fill="#EEF0F2"
           />
         </svg>
-        Back
+        {lang === "Az" ? "Geri" : lang === "Ru" ? "Назад" : "Back"}
       </Link>
     </div>
   );

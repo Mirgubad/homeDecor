@@ -1,28 +1,33 @@
-import { useGetAllStatisticsQuery } from "../services/statistics";
-import { useSetPageTitle } from "../hooks/useSetPageTitle";
+import React from "react";
 import AboutUs from "../components/AboutUs";
-import Loader from "../components/Loader";
-import React, { useEffect, useState } from "react";
 import Statistics from "../components/Statistics";
 import StatisticsElement from "../components/StatisticsElement";
+import { useLang } from "../context/LangContext";
+import { useSetPageTitle } from "../hooks/useSetPageTitle";
+import { useGetAllStatisticsQuery } from "../services/statistics";
 
 const AboutPage = () => {
-  useSetPageTitle("About");
+  const { lang } = useLang();
+  switch (lang) {
+    case "Az":
+      useSetPageTitle("Haqqımızda");
+      break;
+    case "Ru":
+      useSetPageTitle("О нас");
+      break;
+    default:
+      useSetPageTitle("About us");
+  }
+
   const { data: statistics, isLoading } = useGetAllStatisticsQuery();
 
-  return isLoading || !statistics ? (
-    <Loader />
-  ) : (
+  return (
     <main>
-      <AboutUs />
+      <AboutUs lang={lang} />
       <Statistics>
         {statistics &&
           statistics.map((statistic) => (
-            <StatisticsElement
-              key={statistic.id}
-              count={statistic.count}
-              description={statistic.description}
-            />
+            <StatisticsElement lang={lang} key={statistic.id} {...statistic} />
           ))}
       </Statistics>
     </main>

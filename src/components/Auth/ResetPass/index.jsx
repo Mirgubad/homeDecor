@@ -1,4 +1,5 @@
 import { Formik, Form } from "formik";
+import * as Yup from "yup";
 import ButtonPrimary from "../../ButtonPrimary";
 import FormBottomQuestion from "../FormBottomQuestion";
 import FormTitle from "../FormTitle";
@@ -6,7 +7,7 @@ import React, { useState } from "react";
 import styles from "../Login/login.module.css";
 import TextInputYup from "../../TextInputYup";
 
-const ResetPass = () => {
+const ResetPass = ({ lang }) => {
   const [showPass, setShowPass] = useState(false);
 
   const validationSchema = Yup.object({
@@ -20,7 +21,15 @@ const ResetPass = () => {
   };
   return (
     <div className={styles["login"]}>
-      <FormTitle title="new password" />
+      <FormTitle
+        title={
+          lang === "Az"
+            ? "Şifrəni yenilə"
+            : lang === "Ru"
+            ? "Сбросить пароль"
+            : "Enter new password"
+        }
+      />
       <Formik
         initialValues={{
           email: "",
@@ -36,7 +45,13 @@ const ResetPass = () => {
               id="email"
               name="email"
               type={`${showPass ? "text" : "password"}`}
-              placeholder="ENTER NEW PASSWORD"
+              placeholder={
+                lang === "Az"
+                  ? "Şifrəni daxil edin"
+                  : lang === "Ru"
+                  ? "Введите пароль"
+                  : "Enter password"
+              }
             />
             {showPass ? (
               <span
@@ -85,19 +100,25 @@ const ResetPass = () => {
           <div className={`${styles["password__input"]} ${styles.form__label}`}>
             <input
               type={`${showPass ? "text" : "password"}`}
-              placeholder="CONFIRM PASSWORD"
+              placeholder={
+                lang === "Az"
+                  ? "Şifrəni təkrar daxil edin"
+                  : lang === "Ru"
+                  ? "Повторите пароль"
+                  : "Repeat password"
+              }
             />
           </div>
 
-          <ButtonPrimary>SUBMIT</ButtonPrimary>
+          <ButtonPrimary>
+            {lang === "Az"
+              ? "Şifrəni yenilə"
+              : lang === "Ru"
+              ? "Обновить пароль"
+              : "Reset password"}
+          </ButtonPrimary>
         </Form>
       </Formik>
-
-      <FormBottomQuestion
-        question="Don't have an account?"
-        path="auth/register"
-        pathname="register"
-      />
     </div>
   );
 };

@@ -1,8 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../SortSelect/sortSelect.module.css";
 
-const SortSelect = ({ open, setOpen, sortTypes, onSortClick }) => {
-  const [selectedSort, setSelectedSort] = useState("Sort By");
+const SortSelect = ({ open, setOpen, sortTypes, onSortClick, lang }) => {
+  const getInitialSelectedSort = () => {
+    switch (lang) {
+      case "Az":
+        return "Sırala";
+      case "Ru":
+        return "Сортировать";
+      default:
+        return "Sort BY";
+    }
+  };
+  const [selectedSort, setSelectedSort] = useState(getInitialSelectedSort());
   return (
     <div className={styles.select}>
       <div onClick={() => setOpen(!open)} className={`${styles.header}`}>
@@ -44,15 +54,32 @@ const SortSelect = ({ open, setOpen, sortTypes, onSortClick }) => {
       <div className={`${styles.options} ${open ? styles.expanded : ""}`}>
         {sortTypes.map((sort) => (
           <div
-            style={{ display: selectedSort !== sort.title ? "block" : "none" }}
+            style={{
+              display:
+                selectedSort !== sort.titleRu &&
+                selectedSort !== sort.titleAz &&
+                selectedSort !== sort.title
+                  ? "block"
+                  : "none",
+            }}
             key={sort.id}
             onClick={() => {
               onSortClick(sort);
-              setSelectedSort(sort.title);
+              setSelectedSort(
+                lang === "Az"
+                  ? sort.titleAz
+                  : lang === "Ru"
+                  ? sort.titleRu
+                  : sort.title
+              );
             }}
             className={styles.option}
           >
-            {sort.title}
+            {lang === "Az"
+              ? sort.titleAz
+              : lang === "Ru"
+              ? sort.titleRu
+              : sort.title}
           </div>
         ))}
       </div>

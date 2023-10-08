@@ -6,11 +6,14 @@ import i18n from "./utils/i18n"; // Your i18n configuration
 import React from "react";
 import ReactDOM from "react-dom/client";
 import store from "./store/store";
+import { LangProvider } from "./context/LangContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <I18nextProvider i18n={i18n}>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </I18nextProvider>
+  <LangProvider>
+    <I18nextProvider i18n={i18n}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </I18nextProvider>
+  </LangProvider>
 );

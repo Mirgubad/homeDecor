@@ -4,8 +4,9 @@ import PhoneNumberInput from "../PhoneNumberInput";
 import React from "react";
 import styles from "../CheckOutContainer/checkout.module.css";
 import TextInput from "../TextInputYup";
+import InputCardDate from "../InputCardDate";
 
-const CheckOutContainer = () => {
+const CheckOutContainer = ({ lang }) => {
   const validationSchema = Yup.object({
     name: Yup.string()
       .min(5, "Name must be at least 3 characters")
@@ -58,14 +59,22 @@ const CheckOutContainer = () => {
         >
           <Form className={styles.checkout__form}>
             <div className={styles["form__personal--info"]}>
-              <p className={styles.header}>Personal information</p>
+              <p className={styles.header}>
+                {lang === "Az"
+                  ? "Şəxsi məlumat"
+                  : lang === "Ru"
+                  ? "Персональная информация"
+                  : "Personal information"}
+              </p>
 
               <fieldset className={styles.info__left}>
                 <TextInput
                   type="text"
                   name="name"
                   id="name"
-                  placeholder="name"
+                  placeholder={
+                    lang === "Az" ? "Ad" : lang === "Ru" ? "Имя" : "Name"
+                  }
                 />
                 <TextInput
                   type="text"
@@ -77,13 +86,25 @@ const CheckOutContainer = () => {
                   type="text"
                   name="address"
                   id="address"
-                  placeholder="city,street"
+                  placeholder={
+                    lang === "Az"
+                      ? "Küçə,adres"
+                      : lang === "Ru"
+                      ? "Адрес улицы"
+                      : "City,address"
+                  }
                 />
                 <TextInput
                   type="text"
                   name="surname"
                   id="surname"
-                  placeholder="surname"
+                  placeholder={
+                    lang === "Az"
+                      ? "Soyad"
+                      : lang === "Ru"
+                      ? "фамилия"
+                      : "Surname"
+                  }
                 />
                 <PhoneNumberInput countryCode="994" />
 
@@ -91,28 +112,52 @@ const CheckOutContainer = () => {
                   id="postalCode"
                   name="postalCode"
                   type="text"
-                  placeholder="Postal code"
+                  placeholder={
+                    lang === "Az"
+                      ? "Poçt indeksi"
+                      : lang === "Ru"
+                      ? "Почтовый индекс"
+                      : "Postal code"
+                  }
                 />
               </fieldset>
             </div>
             <div className={styles["form__card--info"]}>
-              <p className={styles.header}>card information</p>
+              <p className={styles.header}>
+                {lang === "Az"
+                  ? "kart məlumatı"
+                  : lang === "Ru"
+                  ? "информация о карте"
+                  : "card information"}
+              </p>
               <fieldset className={styles.info__right}>
                 <TextInput
                   type="text"
                   name="cardNumber"
                   id="cardNumber"
-                  placeholder="card number"
+                  placeholder={
+                    lang === "Az"
+                      ? "Kart nömrəsi"
+                      : lang === "Ru"
+                      ? "Номер карты"
+                      : "Card number"
+                  }
                 />
 
                 <div className={styles.customInput}>
-                  <TextInput
+                  <InputCardDate
                     id="expiryDate"
                     name="expiryDate"
                     type="text"
-                    placeholder="expiry date"
+                    placeholder={
+                      lang === "Az"
+                        ? "Son istifafə tarixi"
+                        : lang === "Ru"
+                        ? "Дата истечения срока действия"
+                        : "expiry date"
+                    }
                   />
-                  <span className={styles.placeholder}>_/_/_</span>
+                  <span className={styles.placeholder}>__/__/</span>
                 </div>
 
                 <div className={styles.customInput}>
@@ -127,7 +172,13 @@ const CheckOutContainer = () => {
               </fieldset>
             </div>
             <div className={styles["form__payment--info"]}>
-              <p className={styles.header}>Payment method</p>
+              <p className={styles.header}>
+                {lang === "Az"
+                  ? "Ödəmə metodu"
+                  : lang === "Ru"
+                  ? "Способ оплаты"
+                  : "Payment method"}
+              </p>
               <fieldset className={styles["form__group"]}>
                 <label
                   className={styles["custom__radio--label"]}
@@ -139,7 +190,9 @@ const CheckOutContainer = () => {
                     name="payment"
                     id="card"
                   />
-                  Card
+                  <span>
+                    {lang === "Az" ? "Kart" : lang === "Ru" ? "Карта" : "Card"}
+                  </span>
                 </label>
                 <label
                   className={styles["custom__radio--label"]}
@@ -152,12 +205,24 @@ const CheckOutContainer = () => {
                     name="payment"
                     id="cash"
                   />
-                  Cash
+                  <span>
+                    {lang === "Az"
+                      ? "Nağd"
+                      : lang === "Ru"
+                      ? "Наличные"
+                      : "Cash"}
+                  </span>
                 </label>
               </fieldset>
             </div>
             <div className={styles["form__delivery--info"]}>
-              <p className={styles.header}>Delivery method</p>
+              <p className={styles.header}>
+                {lang === "Az"
+                  ? "Çatdırılma metodu"
+                  : lang === "Ru"
+                  ? "Способ доставки"
+                  : "Delivery method"}
+              </p>
               <fieldset className={styles["form__group"]}>
                 <label
                   className={styles["custom__radio--label"]}
@@ -169,7 +234,11 @@ const CheckOutContainer = () => {
                     name="delivery"
                     id="courier"
                   />
-                  Courier
+                  {lang === "Az"
+                    ? "Kuryer"
+                    : lang === "Ru"
+                    ? "Курьер"
+                    : "Courier"}
                 </label>
                 <label
                   className={styles["custom__radio--label"]}
@@ -182,7 +251,11 @@ const CheckOutContainer = () => {
                     name="delivery"
                     id="pickup"
                   />
-                  Pickup
+                  {lang === "Az"
+                    ? "Özüm gələcəm"
+                    : lang === "Ru"
+                    ? "подобрать"
+                    : "Pick Up"}
                 </label>
               </fieldset>
             </div>
@@ -191,7 +264,13 @@ const CheckOutContainer = () => {
               <input
                 className={`${styles.primary__btn} btn`}
                 type="submit"
-                value="finish order"
+                value={
+                  lang === "Az"
+                    ? "Sifarişi tamamla"
+                    : lang === "Ru"
+                    ? "Завершить заказ"
+                    : "Finish order"
+                }
               />
             </div>
           </Form>

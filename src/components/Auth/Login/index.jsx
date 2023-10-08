@@ -9,18 +9,70 @@ import React, { useEffect, useState } from "react";
 import styles from "../Login/login.module.css";
 import TextInput from "../../TextInputYup";
 import toast from "react-hot-toast";
+import { t } from "i18next";
 
-const Login = () => {
+const Login = ({ lang }) => {
   const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
 
+  const handleSubmit = (user) => {
+    const loggedUser = allUsersData.find(
+      (item) => item.email === user.email && item.password === user.password
+    );
+
+    if (loggedUser !== null && loggedUser !== undefined) {
+      localStorage.setItem("user", JSON.stringify(loggedUser));
+      if (lang === "Az") {
+        toast.success("Uğurla daxil oldunuz");
+      } else if (lang === "Ru") {
+        toast.success("Вы успешно вошли в систему");
+      } else {
+        toast.success("You have successfully logged in");
+      }
+      navigate("/");
+    } else {
+      if (lang === "Az") {
+        toast.error("Email və ya şifrə yanlışdır");
+      } else if (lang === "Ru") {
+        toast.error("Неправильный адрес электронной почты или пароль");
+      } else {
+        toast.error("Incorrect email or password");
+      }
+    }
+  };
+
   const validationSchema = Yup.object({
     password: Yup.string()
-      .min(5, "Password length is less than 5")
-      .required("Password is required"),
+      .min(
+        5,
+        lang === "Az"
+          ? "Şifrə 5 simvoldan az ola bilməz"
+          : lang === "Ru"
+          ? "Пароль не может быть менее 5 символов"
+          : "Password cannot be less than 5 characters"
+      )
+      .required(
+        lang === "Az"
+          ? "Şifrə daxil edin"
+          : lang === "Ru"
+          ? "Введите пароль"
+          : "Enter password"
+      ),
     email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
+      .email(
+        lang === "Az"
+          ? "Elektron poçt ünvanı düzgün deyil"
+          : lang === "Ru"
+          ? "Неправильный адрес электронной почты"
+          : "Incorrect email address"
+      )
+      .required(
+        lang === "Az"
+          ? "Elektron poçt ünvanı daxil edin"
+          : lang === "Ru"
+          ? "Введите адрес электронной почты"
+          : "Enter email address"
+      ),
   });
 
   const handleShowPassword = () => {
@@ -32,26 +84,18 @@ const Login = () => {
   useEffect(() => {}, [allUsersData]);
   return (
     <div className={styles["login"]}>
-      <FormTitle title="Log in" />
+      <FormTitle
+        title={lang === "Az" ? "Daxil ol" : lang === "Ru" ? "Войти" : "Login"}
+      />
       <Formik
         initialValues={{
           password: "",
           email: "",
         }}
         validationSchema={validationSchema}
-        onSubmit={(user) => {
-          const loggedUser = allUsersData.find(
-            (item) =>
-              item.email === user.email && item.password === user.password
-          );
-
-          if (loggedUser !== null && loggedUser !== undefined) {
-            localStorage.setItem("user", JSON.stringify(loggedUser));
-            toast.success("Login successful");
-            navigate("/");
-          } else {
-            toast.error("User not found");
-          }
+        onSubmit={(user, { resetForm }) => {
+          handleSubmit(user);
+          resetForm();
         }}
       >
         <Form className={styles["login__form"]}>
@@ -60,7 +104,13 @@ const Login = () => {
               type="text"
               name="email"
               id="email"
-              placeholder="email"
+              placeholder={
+                lang === "Az"
+                  ? "Elektron poçt"
+                  : lang === "Ru"
+                  ? "Электронная почта"
+                  : "Email"
+              }
             />
           </div>
           <div className={`${styles["password__input"]} ${styles.form__label}`}>
@@ -68,7 +118,9 @@ const Login = () => {
               type={`${showPass ? "text" : "password"}`}
               name="password"
               id="password"
-              placeholder="password"
+              placeholder={
+                lang === "Az" ? "Şifrə" : lang === "Ru" ? "Пароль" : "Password"
+              }
             />
             {showPass ? (
               <span
@@ -118,20 +170,32 @@ const Login = () => {
             className={`${styles["forgotpassword__link"]} `}
             to="/auth/forgotpassword"
           >
-            Forgot password?
+            {lang === "Az"
+              ? "Şifrəni unutmusan?"
+              : lang === "Ru"
+              ? "Забыли пароль?"
+              : "Forgot password?"}
           </Link>
 
           <input
             style={{ maxWidth: "100%" }}
             className={`${btnstyles.primary__btn} btn`}
             type="submit"
-            value="Login"
+            value={
+              lang === "Az" ? "Daxil ol" : lang === "Ru" ? "Войти" : "Login"
+            }
           />
         </Form>
       </Formik>
 
       <FormBottomQuestion
-        question="Don't have an account?"
+        question={
+          lang === "Az"
+            ? "Hesabınız yoxdur?"
+            : lang === "Ru"
+            ? "Нет аккаунта?"
+            : "Don't have an account?"
+        }
         path="auth/register"
         pathname="register"
       />

@@ -1,17 +1,16 @@
 import { Form, Formik } from "formik";
-import { useEffect } from "react";
-import { useGetAllUsersQuery } from "../../../services/user";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { useGetAllUsersQuery } from "../../../services/user";
 import btnstyles from "../../ButtonPrimary/button.module.css";
+import TextInputYup from "../../TextInputYup";
 import FormBottomQuestion from "../FormBottomQuestion";
 import FormTitle from "../FormTitle";
-import React, { useState, useRef } from "react";
 import styles from "../Login/login.module.css";
-import TextInputYup from "../../TextInputYup";
-import toast from "react-hot-toast";
 
-const Register = () => {
+const Register = ({ lang }) => {
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
   const { data: allUsersData, refetch: refetchUsers } = useGetAllUsersQuery();
@@ -24,26 +23,85 @@ const Register = () => {
 
   const validationSchema = Yup.object({
     name: Yup.string()
-      .min(5, "Name length is less than 3")
-      .required("Name is required"),
+      .min(
+        3,
+        lang === "Az"
+          ? "Ad uzunluğu 3-dən azdır"
+          : lang === "Ru"
+          ? "Длина имени меньше 3"
+          : "Name length is less than 3"
+      )
+      .required(lang === "Az" ? "Ad daxil edilməlidir" : "Name is required"),
     surname: Yup.string()
-      .min(5, "Surname length is less than 3")
-      .required("Surname is required"),
+      .min(
+        3,
+        lang === "Az"
+          ? "Soyad uzunluğu 3-dən azdır"
+          : lang === "Ru"
+          ? "Длина фамилии меньше 3"
+          : "Surname length is less than 3"
+      )
+      .required(
+        lang === "Az" ? "Soyad daxil edilməlidir" : "Surname is required"
+      ),
     password: Yup.string()
-      .min(5, "Password length is less than 5")
-      .required("Password is required"),
+      .min(
+        5,
+        lang === "Az"
+          ? "Şifrə uzunluğu 5-dən azdır"
+          : lang === "Ru"
+          ? "Длина пароля меньше 5"
+          : "Password length is less than 5"
+      )
+      .required(
+        lang === "Az" ? "Şifrə daxil edilməlidir" : "Password is required"
+      ),
     confirmpassword: Yup.string()
-      .min(5, "Password length is less than 5")
-      .required("Confirm Password is required")
-      .oneOf([Yup.ref("password"), null], "Passwords don't match password "), // Use Yup.ref to reference the 'password' field
+      .min(
+        5,
+        lang === "Az"
+          ? "Şifrə uzunluğu 5-dən azdır"
+          : lang === "Ru"
+          ? "Длина пароля меньше 5"
+          : "Password length is less than 5"
+      )
+      .required(
+        lang === "Az" ? "Şifrə daxil edilməlidir" : "Password is required"
+      )
+      .oneOf(
+        [Yup.ref("password"), null],
+        lang === "Az"
+          ? "Şifrələr uyğun gəlmir"
+          : lang === "Ru"
+          ? "Пароли не совпадают"
+          : "Passwords do not match"
+      ), // Use Yup.ref to reference the 'password' field
     email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
+      .email(
+        lang === "Az"
+          ? "Elektron poçt ünvanı düzgün deyil"
+          : lang === "Ru"
+          ? "Неверный адрес электронной почты"
+          : "Invalid email address"
+      )
+      .required(
+        lang === "Az"
+          ? "Elektron poçt ünvanı daxil edilməlidir"
+          : "Email is required"
+      ),
   });
 
   return (
     <div className={styles["login"]}>
-      <FormTitle title="register" />
+      <FormTitle
+        title={
+          lang === "Az"
+            ? "Qeydiyyat"
+            : lang === "Ru"
+            ? "Регистрация"
+            : "Register"
+        }
+      />
       <Formik
         initialValues={{
           name: "",
@@ -53,7 +111,7 @@ const Register = () => {
           email: "",
         }}
         validationSchema={validationSchema}
-        onSubmit={async (user) => {
+        onSubmit={async (user, { resetForm }) => {
           const { confirmpassword, ...userData } = user; // Destructure the user object and exclude 'confirmpassword'
 
           if (user.password !== user.confirmpassword) {
@@ -71,10 +129,23 @@ const Register = () => {
                   "Content-Type": "application/json",
                 },
               });
+              if (lang === "Az") {
+                toast.success("Qeydiyyat uğurla başa çatdı");
+              } else if (lang === "Ru") {
+                toast.success("Регистрация прошла успешно");
+              } else {
+                toast.success("Registration was successful");
+              }
               navigate(`/auth/login`);
-              toast.success("Registration successful");
+              resetForm();
             } else {
-              toast.error("User already exists");
+              if (lang === "Az") {
+                toast.error("Bu email artıq istifadə olunur");
+              } else if (lang === "Ru") {
+                toast.error("Этот адрес электронной почты уже используется");
+              } else {
+                toast.error("This email is already in use");
+              }
             }
           }
         }}
@@ -85,7 +156,9 @@ const Register = () => {
               type="text"
               id="name"
               name="name"
-              placeholder="Name"
+              placeholder={
+                lang === "Az" ? "Ad" : lang === "Ru" ? "Имя" : "Name"
+              }
             />
           </div>
           <div className={styles["form__label"]}>
@@ -93,7 +166,9 @@ const Register = () => {
               type="text"
               id="surname"
               name="surname"
-              placeholder="Surname"
+              placeholder={
+                lang === "Az" ? "Soyad" : lang === "Ru" ? "Фамилия" : "Surname"
+              }
             />
           </div>
           <div className={styles["form__label"]}>
@@ -101,13 +176,21 @@ const Register = () => {
               type="email"
               id="email"
               name="email"
-              placeholder="E-MAIL ADRESS"
+              placeholder={
+                lang === "Az"
+                  ? "Email"
+                  : lang === "Ru"
+                  ? "Эл. адрес"
+                  : "E-MAIL ADRESS"
+              }
             />
           </div>
           <div className={`${styles["password__input"]} ${styles.form__label}`}>
             <TextInputYup
               type={`${showPass ? "text" : "password"}`}
-              placeholder="PASSWORD"
+              placeholder={
+                lang === "Az" ? "Şifrə" : lang === "Ru" ? "Пароль" : "Password"
+              }
               id="password"
               name="password"
             />
@@ -160,7 +243,13 @@ const Register = () => {
           <div className={`${styles["password__input"]} ${styles.form__label}`}>
             <TextInputYup
               type={`${showPass ? "text" : "password"}`}
-              placeholder="repeat PASSWORD"
+              placeholder={
+                lang === "Az"
+                  ? "Təkrar Şifrə"
+                  : lang === "Ru"
+                  ? "Повторите Пароль"
+                  : "Confirm Password  "
+              }
               id="confirmpassword"
               name="confirmpassword"
             />
@@ -170,13 +259,25 @@ const Register = () => {
             style={{ maxWidth: "100%" }}
             className={`${btnstyles.primary__btn} btn`}
             type="submit"
-            value="Register"
+            value={
+              lang === "Az"
+                ? "Qeydiyyat"
+                : lang === "Ru"
+                ? "Регистрация"
+                : "Register"
+            }
           />
         </Form>
       </Formik>
 
       <FormBottomQuestion
-        question="Already have an account?"
+        question={
+          lang === "Az"
+            ? "Hesabınız var?"
+            : lang === "Ru"
+            ? "У вас есть аккаунт"
+            : "Already have an account?"
+        }
         path="auth/login"
         pathname="login"
       />

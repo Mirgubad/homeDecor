@@ -8,6 +8,10 @@
 .input {
   position: relative;
 }
+
+.input input {
+  width: 100%;
+}
 .errorIcon {
   position: absolute;
   right: 1rem !important;

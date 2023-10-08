@@ -34,7 +34,9 @@ function PopUp({ message, description }) {
           <Toast.Body>
             <p className="popup__msg">{description}</p>
           </Toast.Body>
-          <ButtonPrimary href="/">Home Page</ButtonPrimary>
+          <div onClick={() => setShowPopUp(false)}>
+            <ButtonPrimary href="/">Home Page</ButtonPrimary>
+          </div>
         </Toast>
       </section>
     </>

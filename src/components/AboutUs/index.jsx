@@ -3,10 +3,10 @@ import { useGetAboutUsQuery } from "../../services/aboutUs";
 import { useLocation } from "react-router-dom";
 import ButtonSecondary from "../ButtonSecondary";
 import Loader from "../Loader";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SectionTop from "../SectionTop";
 
-const AboutUs = () => {
+const AboutUs = ({ lang }) => {
   const { data: aboutUs, isLoading } = useGetAboutUsQuery();
   const location = useLocation();
 
@@ -15,20 +15,46 @@ const AboutUs = () => {
   ) : (
     <section className="about">
       <div className="container">
-        <SectionTop title={aboutUs.title} />
+        <SectionTop
+          title={
+            lang === "Ru"
+              ? aboutUs.titleRu
+              : lang === "Az"
+              ? aboutUs.titleAz
+              : aboutUs.title
+          }
+        />
       </div>
       <div className="about__contents container">
         <div className="about__left">
           <img
             className="about__left--img"
             src={aboutUs.img}
-            alt={aboutUs.title}
+            alt={
+              lang === "Ru"
+                ? aboutUs.titleRu
+                : lang === "Az"
+                ? aboutUs.titleAz
+                : aboutUs.title
+            }
           />
         </div>
         <div className="about__right">
-          <p className="about__desc">{aboutUs.description}</p>
+          <p className="about__desc">
+            {lang === "Ru"
+              ? aboutUs.descriptionRu
+              : lang === "Az"
+              ? aboutUs.descriptionAz
+              : aboutUs.description}
+          </p>
           {location.pathname !== "/about" ? (
-            <ButtonSecondary href="/about">Learn More</ButtonSecondary>
+            <ButtonSecondary href="/about">
+              {lang === "Ru"
+                ? "более"
+                : lang == "Az"
+                ? "Daha çox"
+                : "Learn More"}
+            </ButtonSecondary>
           ) : null}
         </div>
       </div>

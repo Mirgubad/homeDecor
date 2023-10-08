@@ -16,11 +16,15 @@
 }
 
 .info__left {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(30rem), 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
 }
 
+:is(.form__personal--info, .form__card--info) :is(input, div) {
+  max-width: 33rem;
+  width: 100%;
+}
 .form__right,
 .form__left,
 .info__right {
@@ -71,7 +75,6 @@
   flex-wrap: wrap;
   justify-content: space-between;
   row-gap: 5rem;
-
   flex: 1;
 }
 
@@ -83,7 +86,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
-  gap: 5rem 13.7rem;
+  gap: 2rem;
   grid-template-areas:
     "personal personal card-info"
     "personal personal card-info"
@@ -95,20 +98,19 @@
 }
 .form__card--info {
   grid-area: card-info;
+  max-width: 36.8rem;
 }
 
 .form__submit {
   grid-area: submit;
 }
 
-.form__group {
-  display: block;
-}
-
 .primary__btn {
   background: var(--color-primary);
   color: var(--btn-txt-color);
   transition: background 0.2s linear;
+  max-width: 33rem;
+  width: 100%;
 }
 
 .primary__btn:hover {
@@ -129,19 +131,17 @@
 
 @media screen and (max-width: 992px) {
   .checkout__form {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
     column-gap: 2rem;
-    grid-template-rows: 1fr 0fr 0.3fr;
+    grid-template-rows: 1fr 0.3fr;
     grid-template-areas:
-      "personal personal card-info"
-      "personal personal payment"
-      "personal personal delivery"
-      "personal personal delivery"
-      "submit submit submit";
+      "personal card-info"
+      "personal payment"
+      "submit delivery";
   }
-  .form__group {
+  .form__submit {
     display: flex;
-    gap: 2rem;
+    align-items: end;
   }
 }
 

@@ -2,6 +2,8 @@ import "../HomeMainSlider/homemainslider.css";
 import React from "react";
 import SlickSlider from "../SlickSlider";
 
+import { useEffect } from "react";
+
 const HomeMainSlider = ({ children }) => {
   const options = {
     arrows: true,
@@ -21,8 +23,9 @@ const HomeMainSlider = ({ children }) => {
       },
     ],
   };
+
   return (
-    <section className="category">
+    <section data-aos="fade-left" className="category">
       <div className="categories container">
         <SlickSlider options={options}>{children}</SlickSlider>
       </div>

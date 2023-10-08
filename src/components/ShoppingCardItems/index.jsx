@@ -1,25 +1,40 @@
-import { t } from "i18next";
-import { useGetAllBasketProductsQuery } from "../../services/basketProducts";
+import {
+  useGetAllBasketProductsQuery,
+  useDeleteBasketProductMutation,
+} from "../../services/basketProducts";
 import { useGetAllProductsQuery } from "../../services/product";
 import Loader from "../Loader";
 import React, { useEffect, useState } from "react";
 import ShoppingCartElement from "../ShoppingCartElement";
 import styles from "./shoppingCardLeft.module.css";
 import toast from "react-hot-toast";
+import { useGetAllColorsQuery } from "../../services/colors";
 
-const ShoppingCardItems = ({ setTotalPriceForSummary }) => {
+const ShoppingCardItems = ({
+  setTotalPriceForSummary,
+  setTotalCountForSummary,
+  lang,
+}) => {
   const {
     data: basketProducts,
     isLoading,
     refetch: refetchBasketProducts,
   } = useGetAllBasketProductsQuery();
   const { data: products } = useGetAllProductsQuery();
-
-  const [colors, setColors] = useState([]);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const { data: colors } = useGetAllColorsQuery();
+  const [totalCount, setTotalCount] = useState(0); // State for total count
   const [totalPrice, setTotalPrice] = useState(0); // State for total price
+  const [deleteBasketProduct] = useDeleteBasketProductMutation();
+
   useEffect(() => {
     setTotalPriceForSummary(totalPrice.toFixed(2));
   }, [totalPrice]);
+
+  useEffect(() => {
+    setTotalCountForSummary(totalCount);
+  }, [totalCount]);
+
   const updateProductCount = (id, newCount, price) => {
     const parsedPrice = parseFloat(price);
 
@@ -31,10 +46,7 @@ const ShoppingCardItems = ({ setTotalPriceForSummary }) => {
         return response.json();
       })
       .then((product) => {
-        // Calculate the change in total price
         const priceChange = (newCount - product.count) * parsedPrice;
-
-        // Update the product count and total price
         product.count = newCount;
 
         fetch(`http://localhost:3000/basketProduct/${id}`, {
@@ -46,9 +58,16 @@ const ShoppingCardItems = ({ setTotalPriceForSummary }) => {
         })
           .then((response) => {
             if (!response.ok) {
-              toast.error("Failed to update product count on the server");
+              if (lang === "Az") {
+                toast.error("Məhsul sayı serverdə yenilənmədi");
+              } else if (lang === "Ru") {
+                toast.error("Количество товаров не обновлено на сервере");
+              } else {
+                toast.error("Failed to update product count on the server");
+              }
               throw new Error("Failed to update product count on the server");
             }
+            refetchBasketProducts();
             setTotalPrice(
               (prevTotalPrice) => prevTotalPrice + Number(priceChange)
             );
@@ -62,46 +81,55 @@ const ShoppingCardItems = ({ setTotalPriceForSummary }) => {
       });
   };
 
-  useEffect(() => {
-    fetch("http://localhost:3000/colors")
-      .then((response) => response.json())
-      .then((data) => setColors(data))
-      .catch((error) => console.error("Error fetching colors:", error));
+  const handleDeleteBasketProduct = (basketProductId) => {
+    deleteBasketProduct(basketProductId);
+    refetchBasketProducts();
+    if (lang === "Az") {
+      toast.success("Məhsul səbətdən silindi");
+    } else if (lang === "Ru") {
+      toast.success("Товар удален из корзины");
+    } else {
+      toast.success("Product deleted from basket");
+    }
+  };
 
-    // Calculate the initial total price when component mounts
-    if (basketProducts && products) {
-      const initialTotalPrice = basketProducts.reduce((total, bp) => {
+  const filteredBasketProducts = basketProducts?.filter((bp) =>
+    products?.some(
+      (product) => bp.productId === product.id && bp.userId === user?.id
+    )
+  );
+
+  useEffect(() => {
+    if (filteredBasketProducts && products) {
+      const initialTotalPrice = filteredBasketProducts.reduce((total, bp) => {
         const product = products.find((p) => p.id === bp.productId);
         return total + product.price * bp.count;
       }, 0);
       setTotalPrice(initialTotalPrice);
+
+      const initialTotalCount = filteredBasketProducts.reduce(
+        (totalCount, bp) => {
+          const product = products.find((p) => p.id === bp.productId);
+          return totalCount + bp.count;
+        },
+        0
+      );
+      setTotalCount(initialTotalCount);
     }
   }, [basketProducts, products]);
-
-  const handleDeleteBasketProduct = (basketProductId) => {
-    fetch(`http://localhost:3000/basketProduct/${basketProductId}`, {
-      method: "DELETE",
-    })
-      .then(() => {
-        refetchBasketProducts();
-        toast.success("Product deleted from basket");
-      })
-      .catch((error) => console.error("Error deleting basket product:", error));
-  };
-
-  const filteredBasketProducts = basketProducts?.filter((bp) =>
-    products?.some((product) => bp.productId === product.id)
-  );
 
   return isLoading || !filteredBasketProducts ? (
     <Loader />
   ) : (
     <div className={styles["items"]}>
       {filteredBasketProducts?.map((bp) => {
-        const product = products.find((p) => p.id === bp.productId);
-        const color = colors.find((c) => c.id === bp.colorId);
+        const product = products.find(
+          (p) => p.id === bp.productId && bp.userId === user?.id
+        );
+        const color = colors?.find((c) => c.id === bp.colorId);
         return (
           <ShoppingCartElement
+            lang={lang}
             key={bp.id}
             basketProductId={bp.id}
             updateProductCount={updateProductCount} // Pass the update function

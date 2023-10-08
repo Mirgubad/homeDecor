@@ -3,12 +3,13 @@
   width: 100%;
 }
 
-
-.sliders__container .slick-slide.slick-active:not(.slick-current){
+.sliders__container .slick-slide.slick-active:not(.slick-current) {
   filter: brightness(0.5);
 }
-
-.sliders__container .slick-slide div {
+.bigSlider {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+.smallSlider .slick-slide div {
   margin-right: 2.6rem;
 }
-

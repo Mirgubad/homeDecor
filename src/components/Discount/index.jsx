@@ -2,15 +2,34 @@ import "../Discount/discount.css";
 import ButtonPrimary from "../ButtonPrimary";
 import React from "react";
 
-const Discount = ({ title, description, link, img }) => {
+const Discount = ({
+  title,
+  titleRu,
+  titleAz,
+  description,
+  descriptionRu,
+  descriptionAz,
+  link,
+  img,
+  lang,
+}) => {
   const style = {
     background: `url(${img}) center no-repeat `,
   };
   return (
     <section className="discount" style={style}>
       <div className="discount__contents container">
-        <h2 className="discount__content--title">{title}</h2>
-        <p className="discount__content--desc">{description}</p>
+        <h2 className="discount__content--title">
+          {lang === "Az" ? titleAz : lang === "Ru" ? titleRu : title}
+        </h2>
+        <p className="discount__content--desc">
+          {" "}
+          {lang === "Az"
+            ? descriptionAz
+            : lang === "Ru"
+            ? descriptionRu
+            : description}
+        </p>
 
         <ButtonPrimary href={link}>
           <svg
@@ -35,7 +54,11 @@ const Discount = ({ title, description, link, img }) => {
               fill="#EAE6DF"
             />
           </svg>
-          Shop now
+          {lang === "Az"
+            ? "İndi al"
+            : lang === "Ru"
+            ? "купить сейчас"
+            : "Shop now"}
         </ButtonPrimary>
       </div>
     </section>

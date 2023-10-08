@@ -5,12 +5,14 @@ import LoginTopBackButton from "../components/Auth/LoginTopBackButton";
 import Notification from "../components/Notification";
 import React from "react";
 import styles from "./loginregister.module.css";
+import { useLang } from "../context/LangContext";
 
 const LoginRegisterLayout = () => {
+  const { lang, setLang } = useLang();
   return (
     <>
       <div className={styles.navbar}>
-        <Headers />
+        <Headers lang={lang} setLang={setLang} />
       </div>
       <section
         style={{
@@ -22,7 +24,7 @@ const LoginRegisterLayout = () => {
       >
         <Notification />
         <div style={{ padding: "4rem", flex: "1" }}>
-          <LoginTopBackButton />
+          <LoginTopBackButton lang={lang} />
           {<Outlet />}
         </div>
         <Background />

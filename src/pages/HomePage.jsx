@@ -19,8 +19,12 @@ import HomeProducts from "../components/HomeProducts";
 import PopularProducts from "../components/PopularProducts";
 import ProductElement from "../components/ProductElement";
 import React from "react";
+import { useLang } from "../context/LangContext";
+import i18n from "../utils/i18n";
+import { useEffect } from "react";
 
 const HomePage = () => {
+  const { lang } = useLang();
   const { data: categories } = useGetAllCategoriesQuery();
   const { data: collections } = useGetAllCollectionsQuery();
   const { data: discount } = useGetDiscountDataQuery();
@@ -29,48 +33,83 @@ const HomePage = () => {
   const { data: products } = useGetAllProductsHomeQuery();
   const { t } = useTranslation();
 
-  useSetPageTitle(t("webTitle"));
+  switch (lang) {
+    case "Az":
+      useSetPageTitle("Ana səhifə");
+      break;
+    case "Ru":
+      useSetPageTitle("Главная страница");
+      break;
+    default:
+      useSetPageTitle("Home page");
+  }
+
   return (
     <main>
-      {/* <p>{t('homeIntro.title')}</p>
-    <p>{t('homeIntro.description')}</p> */}
-      {homeIntro && <HomeIntro {...homeIntro} />}
+      {homeIntro && <HomeIntro lang={lang} {...homeIntro} />}
       {categories && (
         <HomeMainSlider>
           {categories.map((category) => (
-            <CategoryElement type="category" key={category.id} {...category} />
+            <CategoryElement
+              lang={lang}
+              type="category"
+              key={category.id}
+              {...category}
+            />
           ))}
         </HomeMainSlider>
       )}
 
-      <AboutUs />
+      <AboutUs lang={lang} />
 
-      {discount && <Discount {...discount} />}
+      {discount && <Discount lang={lang} {...discount} />}
 
       {products && (
-        <HomeProducts title="Products">
+        <HomeProducts
+          lang={lang}
+          title={
+            lang === "Az" ? "Məhsullar" : lang === "Ru" ? "Товары" : "Products"
+          }
+        >
           {products.map((product) => (
-            <ProductElement key={product.id} {...product} />
+            <ProductElement lang={lang} key={product.id} {...product} />
           ))}
         </HomeProducts>
       )}
       {popularProducts && (
-        <PopularProducts title="Most POPULAR">
+        <PopularProducts
+          title={
+            lang === "Az"
+              ? "Populyar məhsullar"
+              : lang === "Ru"
+              ? "Популярные товары"
+              : "Most Popular"
+          }
+        >
           {popularProducts.map((product) => (
-            <ProductElement key={`a-${product.id}`} {...product} />
+            <ProductElement lang={lang} key={`a-${product.id}`} {...product} />
           ))}
         </PopularProducts>
       )}
 
       {collections && (
-        <HomeCollections title="collections">
+        <HomeCollections
+          lang={lang}
+          title={
+            lang === "Az"
+              ? "Kolleksiyalar"
+              : lang === "Ru"
+              ? "Коллекции"
+              : "Collections"
+          }
+        >
           {collections.map((product) => (
-            <CategoryElement key={`a-${product.id}`} {...product} />
+            <CategoryElement lang={lang} key={`a-${product.id}`} {...product} />
           ))}
         </HomeCollections>
       )}
 
-      <Contact />
+      <Contact lang={lang} />
     </main>
   );
 };
