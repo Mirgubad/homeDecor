@@ -3,4 +3,4 @@
   functions = "functions"
 
 [dev]
-  command = "npm run dev"
+  command = "npm run dev json-server --watch db.json"
