@@ -26,7 +26,23 @@
   margin-inline-end: 3rem;
 }
 
-
+.basket__count{
+  position: relative;
+  
+}
+.basket__count--icon{
+  position: absolute;
+  top: -1.4rem;
+  right: -.6rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: black;
+  color: white;
+  font-size: 1.2rem;
+  display: grid;
+  place-content: center;
+  border-radius: 50%;
+}
 .search.fixed {
   position: fixed;
   display: flex;
@@ -65,6 +81,4 @@
     margin-left: auto;
     margin-right: 2.5rem;
   }
-
-
 }

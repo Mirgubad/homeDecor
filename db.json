@@ -612,10 +612,10 @@
     },
     {
       "productId": 1,
-      "colorId": 2,
-      "count": 8,
+      "colorId": 1,
+      "count": 9,
       "userId": 14,
-      "id": 10
+      "id": 9
     }
   ]
 }

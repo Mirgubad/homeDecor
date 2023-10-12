@@ -4,10 +4,12 @@ import LangSelect from "../LangSelect";
 import OverLay from "../Overlay";
 import React, { useEffect, useState } from "react";
 import styles from "../Header/header.module.css";
+import { useBasketCount } from "../../context/BasketCountContext";
 
 const Header = ({ open, setOpen, setLang, lang }) => {
   const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
+  const { basketCount,setBasketCount } = useBasketCount();
   const [user, setUser] = useState(
     localStorage.getItem("user") ? localStorage.getItem("user") : null
   );
@@ -20,6 +22,7 @@ const Header = ({ open, setOpen, setLang, lang }) => {
       navigate(`/results?search=${searchParam}`);
     }
   };
+  useEffect(()=>{},[basketCount])
 
   useEffect(() => {
     if (showSearch) {
@@ -109,7 +112,10 @@ const Header = ({ open, setOpen, setLang, lang }) => {
             open ? "d-block" : ""
           }`}
         >
-          <NavLink onClick={() => setOpen(false)} to="/card">
+          <NavLink className={styles["basket__count"]} onClick={() => setOpen(false)} to="/card">
+           {
+            basketCount>0&& <span className={styles["basket__count--icon"]}>{basketCount}</span>
+           }
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

@@ -9,10 +9,10 @@ import ShoppingCartElement from "../ShoppingCartElement";
 import styles from "./shoppingCardLeft.module.css";
 import toast from "react-hot-toast";
 import { useGetAllColorsQuery } from "../../services/colors";
+import { useBasketCount } from "../../context/BasketCountContext";
 
 const ShoppingCardItems = ({
   setTotalPriceForSummary,
-  setTotalCountForSummary,
   lang,
 }) => {
   const {
@@ -23,17 +23,15 @@ const ShoppingCardItems = ({
   const { data: products } = useGetAllProductsQuery();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const { data: colors } = useGetAllColorsQuery();
-  const [totalCount, setTotalCount] = useState(0); // State for total count
-  const [totalPrice, setTotalPrice] = useState(0); // State for total price
+  const [totalCount, setTotalCount] = useState(0); 
+  const [totalPrice, setTotalPrice] = useState(0); 
   const [deleteBasketProduct] = useDeleteBasketProductMutation();
-
+ const {setBasketCount} = useBasketCount();
   useEffect(() => {
     setTotalPriceForSummary(totalPrice.toFixed(2));
   }, [totalPrice]);
 
-  useEffect(() => {
-    setTotalCountForSummary(totalCount);
-  }, [totalCount]);
+  useEffect(()=>{},[basketProducts])
 
   const updateProductCount = (id, newCount, price) => {
     const parsedPrice = parseFloat(price);
@@ -84,6 +82,7 @@ const ShoppingCardItems = ({
   const handleDeleteBasketProduct = (basketProductId) => {
     deleteBasketProduct(basketProductId);
     refetchBasketProducts();
+    setBasketCount(basketProducts.length);
     if (lang === "Az") {
       toast.success("Məhsul səbətdən silindi");
     } else if (lang === "Ru") {
@@ -114,7 +113,7 @@ const ShoppingCardItems = ({
         },
         0
       );
-      setTotalCount(initialTotalCount);
+      setBasketCount(initialTotalCount);
     }
   }, [basketProducts, products]);
 

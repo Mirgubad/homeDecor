@@ -1,8 +1,10 @@
 import ButtonPrimary from "../ButtonPrimary";
 import React from "react";
 import styles from "../Summary/summary.module.css";
+import { useBasketCount } from "../../context/BasketCountContext";
 
-const Summary = ({ count, totalPriceForSummary, lang }) => {
+const Summary = ({totalPriceForSummary, lang }) => {
+  const { basketCount } = useBasketCount();
   return (
     <div className={styles["summary"]}>
       <h2 className={styles["summary__title"]}>
@@ -15,7 +17,7 @@ const Summary = ({ count, totalPriceForSummary, lang }) => {
             : lang === "Ru"
             ? "Количество товаров"
             : "item count"}
-          <span>{count}</span>
+          <span>{basketCount}</span>
         </p>
       </div>
       <div className={styles["summary__total"]}>

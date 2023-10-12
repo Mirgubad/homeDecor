@@ -57,7 +57,7 @@ const ShoppingCartElement = ({
           />
         </div>
         <h3 className={styles.item__price}>
-          {price * count}{" "}
+          {price * count}
           <span className={styles.item__currency}>{currency}</span>
         </h3>
       </div>

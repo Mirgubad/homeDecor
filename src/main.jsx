@@ -7,13 +7,16 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import store from "./store/store";
 import { LangProvider } from "./context/LangContext";
+import { BasketCountProvider } from "./context/BasketCountContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <LangProvider>
     <I18nextProvider i18n={i18n}>
+      <BasketCountProvider>
       <Provider store={store}>
         <App />
       </Provider>
+      </BasketCountProvider>
     </I18nextProvider>
   </LangProvider>
 );

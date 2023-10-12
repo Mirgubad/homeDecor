@@ -58,12 +58,10 @@ const ShoppingCardPage = () => {
           <ShoppingCartContainer lang={lang}>
             <ShoppingCardItems
               lang={lang}
-              setTotalCountForSummary={setTotalCountForSummary}
               setTotalPriceForSummary={setTotalPriceForSummary}
             />
             <Summary
               lang={lang}
-              count={totalCountForSummary}
               totalPriceForSummary={totalPriceForSummary}
             />
           </ShoppingCartContainer>
